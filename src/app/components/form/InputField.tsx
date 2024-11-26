@@ -1,37 +1,37 @@
-'use client'
-import { FieldError, UseFormRegisterReturn } from 'react-hook-form'
-import { Eye, EyeSlash } from 'iconsax-react'
-import React from 'react'
-import clsx from 'clsx'
+"use client";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
+import { Eye, EyeSlash } from "iconsax-react";
+import React from "react";
+import clsx from "clsx";
 
-import { ErrorMessage } from '../ErrorMessage'
-import { Label } from '../elements/Label'
+import { ErrorMessage } from "../ErrorMessage";
+import { Label } from "../elements/Label";
 
 interface InputFieldProps {
-  type?: 'text' | 'number' | 'email' | 'password'
-  label?: string
-  className?: string
-  placeholder?: string
-  iconPosition?: 'start' | 'end'
-  icon?: React.ReactNode
-  isDisabled?: boolean
-  hasError: FieldError | undefined
-  withIcon?: boolean
-  canPressSpace?: boolean
-  registration: Partial<UseFormRegisterReturn>
-  handleShowPassword?: () => void
-  min?: string
-  max?: string
-  value?: string | number
-  isRequired?: boolean
-  errorMessage?: string | undefined
-  inputHint?: boolean
-  inputHintText?: string
-  labelClassName?: string
+  type?: "text" | "number" | "email" | "password";
+  label?: string;
+  className?: string;
+  placeholder?: string;
+  iconPosition?: "start" | "end";
+  icon?: React.ReactNode;
+  isDisabled?: boolean;
+  hasError: FieldError | undefined;
+  withIcon?: boolean;
+  canPressSpace?: boolean;
+  registration: Partial<UseFormRegisterReturn>;
+  handleShowPassword?: () => void;
+  min?: string;
+  max?: string;
+  value?: string | number;
+  isRequired?: boolean;
+  errorMessage?: string | undefined;
+  inputHint?: boolean;
+  inputHintText?: string;
+  labelClassName?: string;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
-  type = 'text',
+  type = "text",
   icon,
   label,
   hasError,
@@ -39,7 +39,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   registration,
   withIcon = false,
-  iconPosition = 'end',
+  iconPosition = "end",
   canPressSpace = true,
   handleShowPassword,
   min,
@@ -54,12 +54,12 @@ export const InputField: React.FC<InputFieldProps> = ({
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleKeyDown = (e: any) => {
-    if (e.key === ' ') {
-      e.preventDefault()
+    if (e.key === " ") {
+      e.preventDefault();
     }
-  }
+  };
 
-  const { name } = registration
+  const { name } = registration;
 
   return (
     <div>
@@ -77,8 +77,8 @@ export const InputField: React.FC<InputFieldProps> = ({
       <div className="relative">
         <input
           className={clsx(
-            'h-[42px] w-full border-b font-WorkSans px-4 bg-transparent outline-none placeholder:text-sm text-black placeholder:text-white/4 placeholder:font-light focus-within:border-b-black disabled:bg-gray-100 focus:border-b-black',
-            hasError ? 'border-red-500' : 'border-b-black',
+            "h-[50px] rounded-[5px] w-full border border-[#444444]/50 font-WorkSans px-4 bg-gray-2 outline-none placeholder:text-sm text-white placeholder:text-gray-4/50 placeholder:font-light disabled:bg-gray-100",
+            hasError ? "border-red-500" : "",
             className
           )}
           type={type}
@@ -95,18 +95,18 @@ export const InputField: React.FC<InputFieldProps> = ({
         {withIcon && (
           <span
             className={clsx(
-              'absolute inset-y-0 flex items-center',
-              iconPosition === 'start' ? 'left-0' : 'right-0'
+              "absolute inset-y-0 flex items-center",
+              iconPosition === "start" ? "left-0" : "right-0"
             )}
           >
             {handleShowPassword ? (
               <button
                 type="button"
                 onClick={handleShowPassword}
-                title={type === 'text' ? 'Hide password' : 'Show password'}
+                title={type === "text" ? "Hide password" : "Show password"}
                 className="focus:shadow-outline p-3 focus:outline-none"
               >
-                {type === 'password' ? (
+                {type === "password" ? (
                   <>
                     <EyeSlash size="16" color="#9EA4AC" />
                     <span className="sr-only">Show password</span>
@@ -126,5 +126,5 @@ export const InputField: React.FC<InputFieldProps> = ({
       </div>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </div>
-  )
-}
+  );
+};

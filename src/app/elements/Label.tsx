@@ -1,26 +1,26 @@
-"use client";
-import React from "react";
-import clsx from "clsx";
+'use client'
+import React from 'react'
+import clsx from 'clsx'
 
 type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
-  className?: string;
-  isRequired?: boolean;
-  infoHint?: boolean;
-  infoHintText?: string;
-};
+  className?: string
+  isRequired?: boolean
+  infoHint?: boolean
+  infoHintText?: string
+}
 
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   (
     { className, isRequired, infoHintText, infoHint = false, ...props },
     ref
   ) => {
-    const id = React.useId();
+    const id = React.useId()
     return (
       <label
         ref={ref}
         className={clsx(
-          "mb-2 flex items-center space-x-1 text-base relative leading-[13.5px] font-[500] text-white",
-          infoHint && "mb-3",
+          'mb-2 flex items-center space-x-1 text-sm relative leading-[13.5px] font-semibold text-black',
+          infoHint && 'mb-3',
           className
         )}
         {...props}
@@ -40,8 +40,8 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
           </div>
         )}
       </label>
-    );
+    )
   }
-);
+)
 
-Label.displayName = "Label";
+Label.displayName = 'Label'

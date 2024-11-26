@@ -12,7 +12,8 @@ interface ButtonProps {
     | "close"
     | "back"
     | "none"
-    | "secondary";
+    | "secondary"
+    | "danger";
 
   className?: string;
   children?: React.ReactNode;
@@ -55,15 +56,25 @@ export const Button: React.FC<ButtonProps> = ({
 
   const closeIcon = (
     <svg
-      width="10"
-      height="10"
-      viewBox="0 0 10 10"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M9.43513 8.02082L6.371 4.95669L9.43513 1.89256C9.82168 1.506 9.82168 0.864895 9.43513 0.478343C9.04858 0.0917913 8.40747 0.0917913 8.02092 0.478343L4.95679 3.54247L1.89266 0.478343C1.50611 0.0917913 0.864996 0.0917913 0.478444 0.478343C0.0918925 0.864895 0.0918924 1.506 0.478444 1.89256L3.54257 4.95669L0.478444 8.02082C0.0918921 8.40737 0.0918925 9.04848 0.478444 9.43503C0.864996 9.82158 1.50611 9.82158 1.89266 9.43503L4.95679 6.3709L8.02092 9.43503C8.40747 9.82158 9.04858 9.82158 9.43513 9.43503C9.82168 9.04848 9.82168 8.40737 9.43513 8.02082Z"
-        fill="currentColor"
+        d="M6 6L17.3137 17.3137"
+        stroke="#050505"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6 17L17.3137 5.68629"
+        stroke="#050505"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -91,13 +102,13 @@ export const Button: React.FC<ButtonProps> = ({
       aria-label={ariaLabel}
       className={clsx(
         className,
-        "rounded-[4px] justify-center font-normal whitespace-nowrap w-fit focus:outline-blue-state disabled:cursor-not-allowed gap-2 disabled:opacity-70 cursor-pointer flex items-center transition-colors duration-100",
-        variant === "primary" && "bg-black text-white font-[400]",
+        "rounded-[4px] justify-center font-medium whitespace-nowrap w-fit focus:outline-blue-state disabled:cursor-not-allowed gap-2 disabled:opacity-70 cursor-pointer flex items-center transition-colors duration-100",
+        variant === "primary" && "bg-primary text-black font-[400]",
         variant === "secondary" && "bg-white text-black",
         variant === "outline" && "border border-black text-black",
-        "bg-none border border-black justify-center",
+        variant === "danger" && "bg-red text-white-2 font-[400] px-8",
         (variant === "close" || variant === "back") &&
-          "text-black bg-white border border-black overflow-hidden rounded-[8px] w-[39.9px] min-w-[39.9px] h-[39.9px]",
+          "text-black bg-primary overflow-hidden rounded-none border-none w-[39.9px] min-w-[39.9px] h-[39.9px]",
         variant !== "close" && variant !== "back" && sizeClass[size]
       )}
       disabled={disabled}

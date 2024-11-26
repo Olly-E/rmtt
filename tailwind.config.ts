@@ -9,46 +9,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      typography: {
-        DEFAULT: {
-          css: {
-            h1: {
-              fontSize: "90px",
-              fontWeight: "700",
-            },
-            h2: {
-              fontSize: "66px",
-              fontWeight: "700",
-            },
-            h3: {
-              fontSize: "48px",
-              fontWeight: "700",
-              lineHeight: "62.4px",
-            },
-            h4: {
-              fontSize: "32px",
-              fontWeight: '700'
-            },
-            h5: {
-              fontSize: "24px",
-              fontWeight: '700'
-            },
-            h6: {
-              fontSize: "20px",
-              fontWeight: '700'
-            },
-          
-          },
-        },
-      },
       colors: {
-        primary: "#71C2DE",
-        white: { DEFAULT: "#FFFFFF", 2: "#FAFAFA" },
-        black: { DEFAULT: "#0D0C0C", 2: "#191919", 3: "#444444" },
+        primary: "#F7E001",
+        white: { DEFAULT: "#FFFFFF", 2: "#FAFAFA", 3: "#FAF7E1" },
+        black: { DEFAULT: "#050505" },
         gray: {
-          4: "#F0F0F0",
-          3: "#E1E1E1",
-          2: "#1B1B1",
+          7: "#F1F0EF",
+          6: "#E3E0DE",
+          5: "#CECBC9",
+          4: "#817D7C",
+          3: "#2A2727",
+          2: "#191919",
           1: "#6A6A6A",
         },
         "blue-state": "#2680EB",
@@ -59,9 +30,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/line-clamp"),
-    require("@tailwindcss/typography"),
-  ],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
 export default config;
