@@ -1,22 +1,22 @@
-'use client'
-import React from 'react'
-import clsx from 'clsx'
+"use client";
+import React from "react";
+import clsx from "clsx";
 import {
   FieldError,
   FieldErrorsImpl,
   Merge,
   useController,
   UseControllerProps,
-} from 'react-hook-form'
+} from "react-hook-form";
 import {
   Listbox,
   ListboxButton,
   ListboxOption,
   ListboxOptions,
   Transition,
-} from '@headlessui/react'
-import { Label } from '../elements/Label'
-import { Option } from '../../types'
+} from "@headlessui/react";
+import { Label } from "../elements/Label";
+import { Option } from "../../types";
 
 type HasErrorType = Merge<
   FieldError,
@@ -24,52 +24,70 @@ type HasErrorType = Merge<
     | Merge<
         FieldError,
         FieldErrorsImpl<{
-          name: string
-          id: string
+          name: string;
+          id: string;
         }>
       >
     | undefined
   )[]
->
+>;
 
 type SelectFieldProps = {
-  className?: string
-  arr: Option[]
-  label?: string
-  isDisabled?: boolean
-  isMultiple?: boolean
-  placeholder?: string
-  isOptionClass?: string
-  hasError: HasErrorType | undefined
-  hasBorder?: boolean
-  background?: string
-  openModal?: () => void
-  isLoading?: boolean
-  isRequired?: boolean
-  startIcon?: React.ReactNode
-} & UseControllerProps
+  className?: string;
+  arr: Option[];
+  label?: string;
+  isDisabled?: boolean;
+  isMultiple?: boolean;
+  placeholder?: string;
+  isOptionClass?: string;
+  hasError: HasErrorType | undefined;
+  hasBorder?: boolean;
+  background?: string;
+  openModal?: () => void;
+  isLoading?: boolean;
+  isRequired?: boolean;
+  startIcon?: React.ReactNode;
+} & UseControllerProps;
 
 export const SelectField: React.FC<SelectFieldProps> = (props) => {
   const {
     field: { value, onChange, ref },
-  } = useController(props)
+  } = useController(props);
   const {
     arr,
     className,
     label,
     hasBorder = true,
     hasError = false,
-    placeholder = 'Select option',
+    placeholder = "Select option",
     isMultiple = false,
     isDisabled = false,
     isLoading = false,
     background,
     isRequired,
     startIcon,
-    isOptionClass = 'pl-10 pr-4',
-  } = props
+    isOptionClass = "pl-10 pr-4",
+  } = props;
 
-  const hasMultipleOption = isMultiple && value && value.length > 0
+  const hasMultipleOption = isMultiple && value && value.length > 0;
+
+  const cancelIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      className="lucide lucide-x"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  );
 
   return (
     <div className="w-full">
@@ -77,18 +95,18 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
 
       <Listbox value={value?.id} onChange={onChange} multiple={isMultiple}>
         <div className="relative">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-900 group-hover:text-">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-900">
             {startIcon && startIcon}
           </span>
           <ListboxButton
             className={clsx(
-              'block h-10 w-full bg-transparent text-black shadow-sm border-b border-b-black text-left',
-              hasError && 'border-red-500',
-              !hasBorder && 'border-transparent px-0',
-              startIcon ? 'pr-4 pl-10' : 'px-4',
+              "block h-[38px] rounded-[5px] w-full bg-white-2 text-[#444444] shadow-sm border border-[#444444]/50 text-left",
+              hasError && "border-red-500",
+              !hasBorder && "border-transparent px-0",
+              startIcon ? "pr-4 pl-10" : "px-4",
               isDisabled
-                ? 'pointer-events-none cursor-not-allowed bg-primary text-white'
-                : '',
+                ? "pointer-events-none cursor-not-allowed bg-primary text-white"
+                : "",
               className
             )}
             style={{ background: background }}
@@ -106,16 +124,16 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
             )}
 
             {isMultiple && (
-              <span className="text-sm font-light text-gray-500">
+              <span className="text-sm font-light text-white">
                 {placeholder}
               </span>
             )}
 
             <span
               className={clsx(
-                'pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4',
-                hasError ? 'text-red-500' : '#F9FCF0',
-                isMultiple && 'top-4'
+                "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4",
+                hasError ? "text-red-500" : "#F9FCF0",
+                isMultiple && "top-4"
               )}
             >
               <svg
@@ -140,12 +158,12 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
           {hasMultipleOption && (
             <div className="mt-2 flex flex-wrap gap-2">
               {value
-                .filter((option: Option) => option.id !== 'all')
+                .filter((option: Option) => option.id !== "all")
                 .map((option: Option) => {
                   const handleRemove = (id: string) => {
-                    const newValue = value.filter((o: Option) => o.id !== id)
-                    onChange(newValue)
-                  }
+                    const newValue = value.filter((o: Option) => o.id !== id);
+                    onChange(newValue);
+                  };
                   return (
                     <div
                       className="flex items-center space-x-1 bg-secondary/20 pl-2 text-sm"
@@ -154,13 +172,13 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
                       <p className="py-1">{option.name}</p>
                       <button
                         type="button"
-                        className="p-2 hover:bg-red-400 hover:text-black"
+                        className="p-2 hover:bg-red-400 hover:text-[#444444]"
                         onClick={() => handleRemove(option.id)}
                       >
-                        <span className="font-medium">x</span>
+                        <span className="font-medium">{cancelIcon}</span>
                       </button>
                     </div>
-                  )
+                  );
                 })}
             </div>
           )}
@@ -175,7 +193,7 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
             leaveTo="opacity-0 scale-0"
           >
             <ListboxOptions
-              className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-black py-1 text-base shadow-lg ring-opacity-5 focus:outline-none sm:text-sm"
+              className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white-2 py-1 text-base shadow-lg ring-opacity-5 focus:outline-none sm:text-sm"
               ref={ref}
             >
               {arr &&
@@ -184,13 +202,14 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
                     key={obj.id}
                     className={({ focus, selectedOption }) =>
                       clsx(
-                        'relative cursor-pointer py-2 group',
+                        "relative cursor-pointer py-2 group",
                         isOptionClass,
-                        focus ? 'bg-primary text-black' : 'text-white',
+                        focus ? "bg-black text-primary" : "text-black",
                         selectedOption
-                          ? 'bg-primary text-white'
-                          : 'text-gray-900',
-                        !(arr.length - 1 === index) && 'border-b border-b-primary/30'
+                          ? "bg-primary text-white"
+                          : "text-gray-900",
+                        !(arr.length - 1 === index) &&
+                          "border border-primary/30"
                       )
                     }
                     value={obj}
@@ -200,7 +219,7 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
                         <>
                           <span
                             className={`block truncate ${
-                              selected ? 'font-medium' : 'font-normal'
+                              selected ? "font-medium" : "font-normal"
                             }`}
                           >
                             {obj.name}
@@ -222,7 +241,7 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
                             </span>
                           ) : null}
                         </>
-                      )
+                      );
                     }}
                   </ListboxOption>
                 ))}
@@ -237,5 +256,5 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
         </div>
       </Listbox>
     </div>
-  )
-}
+  );
+};

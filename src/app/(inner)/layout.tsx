@@ -1,4 +1,6 @@
 import React from "react";
+import Header from "../layout/Header";
+
 
 export const metadata = {
   title: "",
@@ -10,5 +12,12 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="h-screen">{children}</div>;
+  return (
+    <div className="h-screen gap-5 flex w-full bg-white-2">
+      <div className="w-full">
+        <Header />
+        {children}
+      </div>
+    </div>
+  );
 }

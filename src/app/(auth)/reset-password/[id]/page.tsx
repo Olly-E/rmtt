@@ -37,7 +37,7 @@ export default function ConfirmPassword() {
         </Link>
         <Link
           href="/login"
-          className="group flex items-center text-white-2 font-medium gap-[6px] leading-[16px]"
+          className="group flex items-center text-black font-medium gap-[6px] leading-[16px]"
         >
           <ArrowLeft2
             color="#FAFAFA"

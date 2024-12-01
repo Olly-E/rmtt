@@ -25,7 +25,7 @@ const Page = () => {
   }>({});
   return (
     <div className="h-screen flex">
-      <div className="min-w-[57.20%] w-[57.20%] bg-black relative px-16 py-14">
+      <div className="min-w-[57.20%] w-[57.20%] bg-white-2 relative px-16 py-14">
         <div className="h-full w-full relative z-[4] flex flex-col justify-between">
           <Link href="/" className="">
             <Image
@@ -53,12 +53,12 @@ const Page = () => {
           className="object-cover"
         />
       </div>
-      <div className="w-[42.80%] bg-black">
+      <div className="w-[42.80%] bg-white-2">
         <div className="w-[356px] mx-auto flex flex-col h-full justify-center">
-          <h2 className="text-white-2 text-[44px] leading-[44px]">
+          <h2 className="text-black text-center text-[44px] leading-[44px]">
             Welcome Back!
           </h2>
-          <p className="text-gray-4 mt-4">
+          <p className="text-gray-4 mt-4 text-center">
             Don’t have and account?{" "}
             <Link
               href="/sign-up"
@@ -70,15 +70,15 @@ const Page = () => {
           </p>
           <Link
             href="/login"
-            className="bg-gray-2/50 mt-8 border-gray-2 border rounded-[5px] flex items-center h-[50px] text-white/30 gap-6 px-6 justify-center text-center w-full"
+            className="bg-transparent mt-8 border-[#191919] border rounded-[5px] flex items-center h-[50px] text-black gap-6 px-6 justify-center text-center w-full"
           >
             <Image src={googleLogo} alt="google" className="w-[24px] h-auto" />
             Sign up with google
           </Link>
           <div className="flex w-full items-center gap-6 my-6">
-            <div className="h-[1px] border border-gray-2 w-full" />
+            <div className="h-[1px] border border-t-gray-7 w-full" />
             <p className="text-gray-4">Or</p>
-            <div className="h-[1px] border-t border-t-gray-2 w-full" />
+            <div className="h-[1px] border-t border-t-gray-7 w-full" />
           </div>
           <div className="space-y-6">
             <div className="">
@@ -88,7 +88,7 @@ const Page = () => {
                 className="mt-[6px]"
                 isRequired
                 label="Email"
-                placeholder=""
+                placeholder="Email"
               />
             </div>
             <div className="">
@@ -103,6 +103,11 @@ const Page = () => {
                 handleShowPassword={handleToggle}
                 withIcon
               />
+            </div>
+            <div className="flex justify-end">
+              <Link href="/forgot-password" className="text-[#817D7C]">
+                Forgot password?
+              </Link>
             </div>
             <Button className="w-full">Sign in</Button>
           </div>

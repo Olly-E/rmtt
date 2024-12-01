@@ -34,7 +34,7 @@ export default function ForgotPassword() {
         </Link>
         <Link
           href="/login"
-          className="group flex items-center text-white-2 font-medium gap-[6px] leading-[16px]"
+          className="group flex items-center text-black font-medium gap-[6px] leading-[16px]"
         >
           <ArrowLeft2 color="#FAFAFA" size={12.6} className="transition-transform group-hover:translate-x-[-4px]" />
           Back to <span className="text-primary">Login</span>

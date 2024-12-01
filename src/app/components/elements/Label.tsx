@@ -19,7 +19,7 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
       <label
         ref={ref}
         className={clsx(
-          "mb-2 flex items-center space-x-1 text-base relative leading-[13.5px] font-[500] text-white",
+          "mb-2 flex items-center space-x-1 text-base relative leading-[13.5px] font-[500] text-black",
           infoHint && "mb-3",
           className
         )}

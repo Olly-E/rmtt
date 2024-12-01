@@ -4,7 +4,7 @@
 
 html {
   font-family: var(--font-Inter);
-  background-color: #050505;
+  background-color: #FAFAFA;
 }
 * {
   padding: 0;
@@ -40,6 +40,9 @@ h5 {
 }
 h6 {
   @apply text-[20px] leading-[27.2px];
+}
+p {
+  @apply font-normal
 }
 .container {
   max-width: 1400px;
