@@ -109,7 +109,7 @@ const Page = () => {
                 Forgot password?
               </Link>
             </div>
-            <Button className="w-full">Sign in</Button>
+            <Button className="w-full" as="link" href="/time">Sign in</Button>
           </div>
         </div>
       </div>

@@ -94,7 +94,7 @@ const Page = () => {
                 isRequired
                 label="3. What industry is your organization in? *"
                 placeholder=""
-                />
+              />
             </div>
             <ButtonSelects
               name="companySize"

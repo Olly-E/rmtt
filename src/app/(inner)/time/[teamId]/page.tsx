@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 import NewTimeEntryModal from "@/app/features/time/components/modals/NewTimeEntryModal";
@@ -8,8 +9,13 @@ import TimeSheetActionBar from "@/app/features/time/components/TimeSheetActionBa
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
+import { Avatar } from "@/app/components/Avatar";
 
-const TimePage = () => {
+const MembersTimePage = (props: {
+  params: {
+    teamId: string;
+  };
+}) => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
   const [selectDate, setSelectDate] = React.useState<Date>(new Date());
 
@@ -45,6 +51,25 @@ const TimePage = () => {
 
   return (
     <div className="">
+      <div className="container bg-white-3 !mt-4 py-4 px-6 border gap-4 border-primary rounded-[7px] flex items-center">
+        <Avatar className="w-[49px] min-w-[49px] aspect-square bg-black-2">
+          O
+        </Avatar>
+        <div>
+          <p className="text-[20px] text-black">Olivia Smith’s timesheet</p>
+          <div className="flex items-center gap-4 w-full">
+            <span className="text-sm text-gray-4">
+              Changes will save to Bola’s timesheet.{" "}
+            </span>
+            <Link
+              href="/time"
+              className="underline underline-offset-1 text-sm text-blue-state"
+            >
+              Resume editing your own timesheet
+            </Link>
+          </div>
+        </div>
+      </div>
       <TimeSheetActionBar
         handlePrevTime={handleDecreaseDate}
         handleNextTime={handleIncreaseDate}
@@ -52,6 +77,7 @@ const TimePage = () => {
         handleChangeView={handleChangeView}
         selectDate={selectDate}
         handleGotoToday={handleGotoToday}
+        teamId={props.params.teamId}
       />
       <div className="container flex items-start gap-7">
         <button type="button" className="" onClick={handleNewTimeEntryClick}>
@@ -78,4 +104,4 @@ const TimePage = () => {
   );
 };
 
-export default TimePage;
+export default MembersTimePage;

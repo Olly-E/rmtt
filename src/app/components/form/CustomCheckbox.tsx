@@ -1,30 +1,31 @@
-'use client'
-import * as Checkbox from '@radix-ui/react-checkbox'
-import React from 'react'
-import clsx from 'clsx'
+"use client";
+import * as Checkbox from "@radix-ui/react-checkbox";
+import React from "react";
+import clsx from "clsx";
 
 interface CustomCheckboxProps {
-  checked: boolean
-  setChecked: React.Dispatch<React.SetStateAction<boolean>>
-  label: string
-  id: string
+  checked: boolean;
+  setChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  label: string;
+  labelClass?: string;
+  id: string;
 }
 const CustomCheckbox = ({
   checked,
   setChecked,
   label,
+  labelClass,
   id,
 }: CustomCheckboxProps) => {
-  
   return (
     <form>
       <div className="flex items-center">
         <Checkbox.Root
           className={clsx(
-            'flex size-[20px] appearance-none items-center justify-center rounded ',
+            "flex size-[20px] appearance-none items-center justify-center rounded ",
             checked
-              ? 'bg-primary text-black'
-              : 'bg-transparent border border-white/30'
+              ? "bg-primary text-black"
+              : "bg-transparent border border-black/20"
           )}
           checked={checked}
           onCheckedChange={() => setChecked(!checked)}
@@ -47,14 +48,17 @@ const CustomCheckbox = ({
           </Checkbox.Indicator>
         </Checkbox.Root>
         <label
-          className="pl-[15px] text-[15px] leading-none text-white/50"
+          className={clsx(
+            "pl-[15px] text-[15px] leading-none text-black",
+            labelClass
+          )}
           htmlFor={id}
         >
           {label}
         </label>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default CustomCheckbox
+export default CustomCheckbox;

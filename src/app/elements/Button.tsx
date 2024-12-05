@@ -56,8 +56,8 @@ export const Button: React.FC<ButtonProps> = ({
 
   const closeIcon = (
     <svg
-      width="24"
-      height="24"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -103,12 +103,13 @@ export const Button: React.FC<ButtonProps> = ({
       className={clsx(
         className,
         "rounded-[4px] justify-center font-medium whitespace-nowrap w-fit focus:outline-blue-state disabled:cursor-not-allowed gap-2 disabled:opacity-70 cursor-pointer flex items-center transition-colors duration-100",
-        variant === "primary" && "bg-primary text-black font-[400]",
+        variant === "primary" &&
+          "bg-primary border border-primary text-black font-[400]",
         variant === "secondary" && "bg-white text-black",
         variant === "outline" && "border border-black text-black",
         variant === "danger" && "bg-red text-white-2 font-[400] px-8",
         (variant === "close" || variant === "back") &&
-          "text-black bg-primary overflow-hidden rounded-none border-none w-[39.9px] min-w-[39.9px] h-[39.9px]",
+          "text-black bg-primary overflow-hidden rounded-full border-none w-[33px] min-w-[33px] h-[33px]",
         variant !== "close" && variant !== "back" && sizeClass[size]
       )}
       disabled={disabled}

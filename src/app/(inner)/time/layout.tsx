@@ -19,13 +19,11 @@ export default function TimerLayout({
   ];
   return (
     <div className="">
-      <div className="">
-        <div className="container">
-          <SubNav links={links} activeLink={pathname} />
-        </div>
-        <div className="border-b-gray-5/30 border-b -mt-[1px]" />
-        {children}
+      <div className="container">
+        <SubNav links={links} activeLink={pathname} />
       </div>
+      <div className="border-b-gray-5/30 border-b -mt-[1px]" />
+      {children}
     </div>
   );
 }

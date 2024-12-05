@@ -20,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexSans.className} antialiased`}>{children}</body>
+      <body className={`${ibmPlexSans.className} antialiased`}>
+        {children} <div id="modal-root"></div>
+      </body>
     </html>
   );
 }

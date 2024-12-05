@@ -100,7 +100,7 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
           </span>
           <ListboxButton
             className={clsx(
-              "block h-[38px] rounded-[5px] w-full bg-white-2 text-[#444444] shadow-sm border border-[#444444]/50 text-left",
+              "block h-[38px] rounded-[5px] w-full bg-white-2 text-[#444444] shadow-sm border border-[#444444]/20 text-left",
               hasError && "border-red-500",
               !hasBorder && "border-transparent px-0",
               startIcon ? "pr-4 pl-10" : "px-4",
