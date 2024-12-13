@@ -51,7 +51,7 @@ export const SelectDropDown = ({
         {icon ? icon : <ArrowDown2 size="16" color="#292D32" />}
       </button>
       {isSelectDropDownVisible && (
-        <div className="mt-2 text-black min-w-[200px] max-h-[300px] overflow-auto bg-white-2 rounded-[10px] border border-gray-200 absolute z-10 ">
+        <div className="mt-2 text-black min-w-[200px] max-h-[300px] overflow-auto bg-white-2 rounded-[10px] border border-gray-200 absolute z-10">
           {option.options.map((multiOptLink, index) => (
             <button
               onClick={() => handleSelectOption(multiOptLink)}

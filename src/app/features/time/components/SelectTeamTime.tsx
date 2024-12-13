@@ -1,12 +1,12 @@
 "use client";
 
 import { ArrowDown2 } from "iconsax-react";
+import Link from "next/link";
 import React from "react";
 import clsx from "clsx";
 
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import { Option } from "@/app/types";
-import Link from "next/link";
 
 interface SelectTeamTimeProp {
   title: string;
@@ -46,7 +46,7 @@ export const SelectTeamTime = ({
         <p className="text-sm">
           {title}
           <span className="capitalize">
-            {(teamMemberOption && teamMemberOption.name) || "Team mates"}
+            {(teamMemberOption && teamMemberOption.name) || "Teammates"}
           </span>
         </p>
         {icon ? icon : <ArrowDown2 size="16" color="#292D32" />}

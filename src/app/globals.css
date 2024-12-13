@@ -2,9 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("./react-date-picker.css");
 html {
   font-family: var(--font-Inter);
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 * {
   padding: 0;
@@ -42,7 +43,7 @@ h6 {
   @apply text-[20px] leading-[27.2px];
 }
 p {
-  @apply font-normal
+  @apply font-normal;
 }
 .container {
   max-width: 1400px;

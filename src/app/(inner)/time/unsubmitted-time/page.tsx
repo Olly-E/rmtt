@@ -96,7 +96,7 @@ const UnSubmittedTime = () => {
             </div>
           </div>
           <Button size="md" className="ml-auto mt-4">
-            Send email remainder
+            Send email reminder
           </Button>
         </div>
       </div>

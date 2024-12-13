@@ -33,7 +33,7 @@ export const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
   label,
 }) => {
   return (
-    <div>
+    <div className="w-full">
       <Label className={labelClassName} htmlFor={id} isRequired={isRequired}>
         {label}
       </Label>

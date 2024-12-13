@@ -1,21 +1,24 @@
-'use client'
-
 import {
   Combobox,
   ComboboxButton,
   ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
   Transition,
-} from '@headlessui/react'
+} from "@headlessui/react";
 import {
   FieldError,
   FieldErrorsImpl,
   Merge,
   useController,
   UseControllerProps,
-} from 'react-hook-form'
-import React from 'react'
-import clsx from 'clsx'
-import { Option } from '../../types'
+} from "react-hook-form";
+import { CloseCircle } from "iconsax-react";
+import React, { useEffect } from "react";
+import clsx from "clsx";
+
+import { CommonData, Option } from "@/app/types";
+import { ChevronDown } from "lucide-react";
 
 type HasErrorType = Merge<
   FieldError,
@@ -23,144 +26,148 @@ type HasErrorType = Merge<
     | Merge<
         FieldError,
         FieldErrorsImpl<{
-          name: string
-          id: string
+          name: string;
+          id: string;
         }>
       >
     | undefined
   )[]
->
+>;
 
 type SelectFieldProps = {
-  className?: string
-  arr: Option[]
-  isMultiple?: boolean
-  placeholder?: string
-  hasError?: HasErrorType | undefined
-  hasBorder?: boolean
-  openModal?: () => void
-  startIcon?: React.ReactNode
-} & UseControllerProps
+  className?: string;
+  arr: Option[] | CommonData[];
+  isMultiple?: boolean;
+  placeholder?: string;
+  hasError?: HasErrorType | undefined;
+  hasBorder?: boolean;
+  openModal?: () => void;
+  dataLoading?: boolean;
+} & UseControllerProps;
 
 export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
   const {
     field: { value, onChange, ref },
-  } = useController(props)
+  } = useController(props);
   const {
     arr,
     className,
     hasError = false,
-    placeholder = 'Select option',
+    placeholder = "Select option",
     isMultiple = false,
     hasBorder = true,
     openModal,
-    startIcon,
-  } = props
+    dataLoading = false,
+  } = props;
 
-  const [query, setQuery] = React.useState('')
+  const [query, setQuery] = React.useState("");
+  const [multiFilterValue, setMultiFilterValue] = React.useState<Option[]>([]);
+
+  useEffect(() => {
+    if (isMultiple) {
+      setMultiFilterValue(value || []);
+    }
+  }, [value]);
 
   const filteredArr =
-    query === ''
-      ? arr
-      : arr.filter((obj) =>
-          obj.name
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, ''))
+    query === ""
+      ? arr.filter(
+          (item) =>
+            !multiFilterValue.some((selected) => selected.id === item.id)
         )
+      : arr.filter(
+          (obj) =>
+            obj.name
+              .toLowerCase()
+              .replace(/\s+/g, "")
+              .includes(query.toLowerCase().replace(/\s+/g, "")) &&
+            !multiFilterValue.some((selected) => selected.id === obj.id)
+        );
 
   const handleInputFocus = (
     event: React.FocusEvent<HTMLInputElement, Element>,
     open: boolean
   ) => {
-    if (event.relatedTarget?.id?.includes('headlessui-combobox-button'))
-      return !open && (event.target.nextSibling as HTMLButtonElement)?.click()
-  }
+    if (event.relatedTarget?.id?.includes("headlessui-combobox-button")) return;
+    if (!open) {
+      (event.target.nextSibling as HTMLButtonElement)?.click();
+    }
+  };
 
-  const hasMultipleOption = isMultiple && value && value.length > 0
+  const hasMultipleOption = isMultiple && multiFilterValue.length > 0;
+
+  const handleRemoveOptionFromMultiple = (id: string) => {
+    const newValue = multiFilterValue.filter((option) => option?.id !== id);
+    setMultiFilterValue(newValue);
+    onChange(newValue); // Update form control value
+  };
 
   return (
     <div className="w-full">
       <Combobox
-        value={isMultiple ? value?.id : value}
-        onChange={onChange}
-        multiple={isMultiple as true}
+        value={isMultiple ? multiFilterValue : value}
+        onChange={(newVal) => {
+          if (isMultiple) {
+            setMultiFilterValue(newVal);
+          }
+          onChange(newVal);
+        }}
+        multiple={isMultiple}
       >
         {({ open }) => (
-          <div className="relative mt-1">
+          <div className="relative mt-1 ">
             <ComboboxInput
               className={clsx(
-                'block h-[40px] rounded-[6px] w-full border border-gray-300 text-left text-sm text-secondary outline-none bg-transparent',
-                hasError && 'border-red-500',
-                startIcon ? 'pr-4 pl-10' : 'px-4',
+                "block h-[40px] rounded-[6px] w-full border-[#9EA4AC] border-[0.5px] px-4 text-left text-sm text-secondary outline-none bg-transparent",
+                hasError && "border-red-500",
                 !hasBorder &&
-                  'border-transparent px-0 focus:border-transparent',
+                  "border-transparent px-0 focus:border-transparent",
                 className
               )}
               placeholder={placeholder}
               displayValue={(option: Option | Option[]) => {
-                return (option as Option)?.name
+                return isMultiple
+                  ? (option as Option[])?.map((opt) => opt.name)?.join(", ")
+                  : (option as Option)?.name;
               }}
               onChange={(event) => setQuery(event.target.value)}
               ref={ref}
-              onFocus={(event: React.FocusEvent<HTMLInputElement, Element>) => {
-                if (isMultiple) handleInputFocus(event, open)
+              onFocus={(event) => {
+                if (isMultiple) handleInputFocus(event, open);
               }}
             />
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-900 group-hover:text-">
-              {startIcon && startIcon}
-            </span>
+
             <ComboboxButton
               className={clsx(
-                'absolute h-full top-0 right-0 flex items-center pr-4',
-                hasError ? 'text-primary' : 'text-gray-250'
+                "absolute top-2 justify-center flex items-center px-2 right-1 rounded-full min-w-[20px] min-h-[24px] mx-auto bg-white-state ",
+                hasError ? "text-primary" : "text-gray-250"
               )}
             >
-              <div>
-                <svg
-                  className="stroke-current"
-                  width="14"
-                  height="15"
-                  viewBox="0 0 14 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.25 5.34766L7 11.7643L1.75 5.34766"
-                    strokeWidth="2"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+              <div style={{ color: "#9EA4AC" }} className="h-fit w-[12px]">
+                <ChevronDown  size={14} />
               </div>
             </ComboboxButton>
 
             {hasMultipleOption && (
               <div className="mt-2 flex flex-wrap gap-2">
-                {value
-                  .filter((option: Option) => option?.id !== 'all')
-                  .map((option: Option) => {
-                    const handleRemove = (id: string) => {
-                      const newValue = value.filter((o: Option) => o.id !== id)
-                      onChange(newValue)
-                    }
-                    return (
-                      <div
-                        className="flex items-center space-x-1 bg-secondary/20 pl-2 text-sm"
-                        key={option.id}
+                {multiFilterValue.length > 0 &&
+                  multiFilterValue.map((option) => (
+                    <div
+                      className="flex py-1 bg-primary/10 border border-[#DADFE7] rounded-[3px] hover:text-black/80 gap-1 px-2 items-center space-x-1 bg-secondary/20 pl-2 text-sm"
+                      key={option?.id}
+                    >
+                      {option?.name}
+                      <button
+                        type="button"
+                        className=""
+                        onClick={() =>
+                          handleRemoveOptionFromMultiple(option?.id)
+                        }
                       >
-                        <p className="py-1">{option?.name}</p>
-                        <button
-                          type="button"
-                          className="p-2 hover:text-primary"
-                          onClick={() => handleRemove(option.id)}
-                        >
-                          <span className="font-medium">x</span>
-                        </button>
-                      </div>
-                    )
-                  })}
+                        <CloseCircle size="20" color="#4F4F4F" />
+                      </button>
+                    </div>
+                  ))}
               </div>
             )}
 
@@ -172,38 +179,42 @@ export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
               leave="transition ease-in duration-100"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-0"
-              afterLeave={() => setQuery('')}
+              afterLeave={() => setQuery("")}
             >
-              <Combobox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto py-0 rounded-[7px] border border-gray-150 bg-white text-base shadow-md ring-opacity-5 focus:outline-none sm:text-sm px-0">
-                {arr.length !== 0 &&
-                filteredArr.length === 0 &&
-                query !== '' ? (
+              <ComboboxOptions className="absolute z-20 mt-1 max-h-60 w-full overflow-auto py-0 rounded-[7px] border border-[#9EA4AC] bg-white text-base shadow-md ring-opacity-5 focus:outline-none sm:text-sm px-0">
+                {filteredArr.length === 0 && query !== "" && !dataLoading ? (
                   <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                     Nothing found.
                   </div>
+                ) : dataLoading ? (
+                  <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    Loading...
+                  </div>
                 ) : (
                   filteredArr.map((obj, index) => (
-                    <Combobox.Option
+                    <ComboboxOption
                       key={obj.id}
                       as={React.Fragment}
                       value={obj}
                     >
-                      {({ selected, active }) => (
+                      {({ selected, focus }) => (
                         <li
                           className={clsx(
-                            'group relative cursor-pointer py-3 px-4',
-                            active
-                              ? 'bg-secondary text-primary'
-                              : 'text-black-state',
+                            "group relative cursor-pointer py-3 px-4 flex items-center",
+                            focus
+                              ? "bg-secondary text-primary"
+                              : "text-black-state",
+                            selected && "bg-primary/20 text-primary",
                             !(filteredArr.length - 1 === index) &&
-                              'border-b border-b-gray-150'
+                              "border-b border-[#9EA4AC]"
                           )}
                         >
                           {selected && (
                             <span
                               className={clsx(
-                                'absolute inset-y-0 left-0 flex items-center pl-3 text-gray-900',
-                                active ? 'text-primary' : 'text-black-state'
+                                "absolute inset-y-0 right-2 flex items-center pl-3 text-gray-900",
+                                focus ? "text-primary" : "text-black-state",
+                                selected && "text-primary"
                               )}
                             >
                               <svg
@@ -222,17 +233,17 @@ export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
                           )}
                           <span
                             className={`block truncate ${
-                              selected ? 'font-medium' : 'font-normal'
+                              selected ? "font-medium" : "font-normal"
                             }`}
                           >
                             {obj.name}
                           </span>
                         </li>
                       )}
-                    </Combobox.Option>
+                    </ComboboxOption>
                   ))
                 )}
-                {arr.length === 0 && (
+                {arr.length === 0 && !dataLoading && (
                   <p className="w-full px-5 py-1 text-sm text-gray-150">
                     No options
                   </p>
@@ -246,11 +257,11 @@ export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
                     Add New
                   </button>
                 )}
-              </Combobox.Options>
+              </ComboboxOptions>
             </Transition>
           </div>
         )}
       </Combobox>
     </div>
-  )
-}
+  );
+};

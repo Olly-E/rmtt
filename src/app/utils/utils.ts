@@ -23,6 +23,11 @@ export const getFormattedDate = (date: Date | string) => {
 export const getFormattedDateWithoutYear = (date: Date | string) => {
   return dayjs(date ? date : new Date()).format("dddd, DD MMM");
 };
+
+export const getFormattedDayAlone = (date: Date | string) => {
+  return dayjs(date ? date : new Date()).format("DD");
+};
+
 export const getFormattedDayMonthYear = (date: Date | null) => {
   if (!date) return "";
   return dayjs(date).format("YYYY-MM-DD");
@@ -36,4 +41,28 @@ export const getFormattedHourMinSec = (date: Date | null) => {
 export const getFormattedDayMonthYearHourMinSec = (date: Date | null) => {
   if (!date) return "";
   return dayjs(date).format("D MMMM YYYY HH:mm a"); // 1 January 2021 12:00 AM
+};
+
+export const getStartOfWeek = (date: Date): Date => {
+  const currentDate = new Date(date);
+  const day = currentDate?.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  currentDate.setDate(currentDate.getDate() + diff);
+  return currentDate;
+};
+
+export const getEndOfWeek = (startOfWeek: Date): Date => {
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek?.setDate(startOfWeek?.getDate() + 6);
+  return endOfWeek;
+};
+
+export const isCurrentWeek = (startOfWeek: Date, endOfWeek: Date): boolean => {
+  const currentStart = getStartOfWeek(new Date());
+  const currentEnd = getEndOfWeek(currentStart);
+
+  return (
+    startOfWeek?.toDateString() === currentStart.toDateString() &&
+    endOfWeek?.toDateString() === currentEnd.toDateString()
+  );
 };

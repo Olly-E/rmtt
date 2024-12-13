@@ -8,26 +8,22 @@ import TimeSheetActionBar from "@/app/features/time/components/TimeSheetActionBa
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
+import { useDateHook } from "@/app/hooks/useDateHook";
 
 const TimePage = () => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
-  const [selectDate, setSelectDate] = React.useState<Date>(new Date());
 
-  const handleIncreaseDate = () => {
-    setSelectDate((prevDate) => {
-      const nextDate = new Date(prevDate);
-      nextDate.setDate(nextDate.getDate() + 1);
-      return nextDate;
-    });
-  };
-
-  const handleDecreaseDate = () => {
-    setSelectDate((prevDate) => {
-      const prevDateCopy = new Date(prevDate);
-      prevDateCopy.setDate(prevDateCopy.getDate() - 1);
-      return prevDateCopy;
-    });
-  };
+  const {
+    selectDate,
+    setSelectDate,
+    weekInterval,
+    handleGotoToday,
+    handleIncreaseDate,
+    handleDecreaseDate,
+    handleIncreaseWeek,
+    handleDecreaseWeek,
+    handleGoToThisWeek,
+  } = useDateHook();
 
   const {
     ref: newTimeEntryRef,
@@ -39,20 +35,23 @@ const TimePage = () => {
   const handleChangeView = (view: "day" | "week") => {
     setActiveView(view);
   };
-  const handleGotoToday = () => {
-    setSelectDate(new Date());
-  };
 
   return (
     <div className="">
-      <TimeSheetActionBar
-        handlePrevTime={handleDecreaseDate}
-        handleNextTime={handleIncreaseDate}
-        activeView={activeView}
-        handleChangeView={handleChangeView}
-        selectDate={selectDate}
-        handleGotoToday={handleGotoToday}
-      />
+      <div className="container">
+        <TimeSheetActionBar
+          handlePrevTime={handleDecreaseDate}
+          handleNextTime={handleIncreaseDate}
+          handleIncreaseWeek={handleIncreaseWeek}
+          handleDecreaseWeek={handleDecreaseWeek}
+          activeView={activeView}
+          handleChangeView={handleChangeView}
+          selectDate={selectDate}
+          handleGotoToday={handleGotoToday}
+          weekInterval={weekInterval}
+          handleGoToThisWeek={handleGoToThisWeek}
+        />
+      </div>
       <div className="container flex items-start gap-7">
         <button type="button" className="" onClick={handleNewTimeEntryClick}>
           <div className="w-[64px] min-w-[64px] aspect-square centered bg-black rounded-full">

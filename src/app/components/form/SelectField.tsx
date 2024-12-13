@@ -137,7 +137,7 @@ export const SelectField: React.FC<SelectFieldProps> = (props) => {
               )}
             >
               <svg
-                className="stroke-current"
+                className="stroke-[#B8B6B4]"
                 width="14"
                 height="15"
                 viewBox="0 0 14 18"

@@ -4,13 +4,14 @@ import React from "react";
 import clsx from "clsx";
 
 import { useComponentVisible } from "../hooks/useComponentVisible";
-import { EllipsisVertical } from "lucide-react";
+import { ChevronDown, EllipsisVertical } from "lucide-react";
 
 interface DropDownProp {
   options: { name: string; id: string; action: () => void }[];
   deleteIndex: number;
+  useIcon?: boolean;
 }
-export const DropDown = ({ options, deleteIndex }: DropDownProp) => {
+export const DropDown = ({ options, deleteIndex, useIcon }: DropDownProp) => {
   const {
     ref: dropDownRef,
     setIsComponentVisible: setDropDownVisible,
@@ -30,14 +31,24 @@ export const DropDown = ({ options, deleteIndex }: DropDownProp) => {
   return (
     <div className="relative" ref={dropDownRef}>
       <div className="flex items-center justify-between w-full">
-        {/* <StatusBadge isPending={isPending} isActive={isActive} /> */}
-        <button
-          ref={dropDownButtonRef}
-          onClick={handleOpenOptionsMenu}
-          className=" w-[28px] h-[28px] centered hover:bg-gray-100 transition-colors"
-        >
-          <EllipsisVertical size={24} color="#9EA4AC" />
-        </button>
+        {useIcon ? (
+          <button
+            ref={dropDownButtonRef}
+            onClick={handleOpenOptionsMenu}
+            className=" w-[28px] h-[28px] centered hover:bg-gray-100 transition-colors"
+          >
+            <EllipsisVertical size={24} color="#9EA4AC" />
+          </button>
+        ) : (
+          <button
+            ref={dropDownButtonRef}
+            onClick={handleOpenOptionsMenu}
+            className="flex items-center gap-2 bg-white-2 px-3 py-2 rounded-[5px] border border-gray-200 w-fit text-sm"
+          >
+            <p className="text-sm">Actions</p>
+            <ChevronDown size="16" color="#292D32" />
+          </button>
+        )}
       </div>
       {isDropDownVisible && (
         <div className=" bg-white right-0 px-6 py-[10px] text-black min-w-[200px] rounded-[10px] border border-gray-200 absolute z-10">

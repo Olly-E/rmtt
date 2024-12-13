@@ -62,7 +62,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   const { name } = registration;
 
   return (
-    <div>
+    <div className="w-full">
       {!!label && (
         <Label
           className={labelClassName}

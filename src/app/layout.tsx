@@ -1,5 +1,6 @@
 import { IBM_Plex_Sans } from "next/font/google";
 import type { Metadata } from "next";
+
 import "./globals.css";
 
 export const metadata: Metadata = {

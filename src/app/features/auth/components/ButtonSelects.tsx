@@ -31,6 +31,7 @@ type ButtonSelectsProps = {
   isRequired?: boolean;
   errorMessage?: string;
   labelClass?: string;
+  className?: string;
 } & UseControllerProps;
 
 const ButtonSelects = ({
@@ -40,15 +41,15 @@ const ButtonSelects = ({
   label,
   isRequired,
   labelClass,
+  className,
 }: ButtonSelectsProps) => {
   return (
-    <div>
+    <div className="w-full">
       {!!label && (
         <Label className={labelClass} isRequired={isRequired}>
           {label}
         </Label>
       )}
-
       <Controller
         control={control}
         name={name}
@@ -58,7 +59,7 @@ const ButtonSelects = ({
           };
 
           return (
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className={clsx("w-full gap-4 mt-4", className)}>
               {options.map((option) => (
                 <button
                   type="button"

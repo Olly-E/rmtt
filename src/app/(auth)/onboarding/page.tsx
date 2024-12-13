@@ -102,6 +102,7 @@ const Page = () => {
               options={STAFF_SIZE}
               hasError={errors.companySize}
               labelClass="!text-[16px]"
+              className="grid grid-cols-5"
               label="4. How many people will you be working with?"
             />
           </div>

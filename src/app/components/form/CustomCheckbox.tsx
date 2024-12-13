@@ -18,46 +18,44 @@ const CustomCheckbox = ({
   id,
 }: CustomCheckboxProps) => {
   return (
-    <form>
-      <div className="flex items-center">
-        <Checkbox.Root
-          className={clsx(
-            "flex size-[20px] appearance-none items-center justify-center rounded ",
-            checked
-              ? "bg-primary text-black"
-              : "bg-transparent border border-black/20"
-          )}
-          checked={checked}
-          onCheckedChange={() => setChecked(!checked)}
-          id={id}
-        >
-          <Checkbox.Indicator className="text-black bg-primary">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M20 6 9 17l-5-5" />
-            </svg>
-          </Checkbox.Indicator>
-        </Checkbox.Root>
-        <label
-          className={clsx(
-            "pl-[15px] text-[15px] leading-none text-black",
-            labelClass
-          )}
-          htmlFor={id}
-        >
-          {label}
-        </label>
-      </div>
-    </form>
+    <div className="flex items-center">
+      <Checkbox.Root
+        className={clsx(
+          "flex size-[20px] appearance-none items-center justify-center rounded ",
+          checked
+            ? "bg-primary text-black"
+            : "bg-transparent border border-black/20"
+        )}
+        checked={checked}
+        onCheckedChange={() => setChecked(!checked)}
+        id={id}
+      >
+        <Checkbox.Indicator className="text-black bg-primary">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </Checkbox.Indicator>
+      </Checkbox.Root>
+      <label
+        className={clsx(
+          "pl-[15px] text-[15px] leading-none text-black",
+          labelClass
+        )}
+        htmlFor={id}
+      >
+        {label}
+      </label>
+    </div>
   );
 };
 

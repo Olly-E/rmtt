@@ -10,30 +10,32 @@ import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
 import { Avatar } from "@/app/components/Avatar";
+import { useDateHook } from "@/app/hooks/useDateHook";
 
-const MembersTimePage = (props: {
+interface PageProps {
   params: {
     teamId: string;
   };
-}) => {
+  searchParams: {
+    approved?: string;
+  };
+}
+const MembersTimePage = (props: PageProps) => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
-  const [selectDate, setSelectDate] = React.useState<Date>(new Date());
 
-  const handleIncreaseDate = () => {
-    setSelectDate((prevDate) => {
-      const nextDate = new Date(prevDate);
-      nextDate.setDate(nextDate.getDate() + 1);
-      return nextDate;
-    });
-  };
+  const isApproved = props.searchParams.approved;
 
-  const handleDecreaseDate = () => {
-    setSelectDate((prevDate) => {
-      const prevDateCopy = new Date(prevDate);
-      prevDateCopy.setDate(prevDateCopy.getDate() - 1);
-      return prevDateCopy;
-    });
-  };
+  const {
+    selectDate,
+    setSelectDate,
+    weekInterval,
+    handleGotoToday,
+    handleIncreaseDate,
+    handleDecreaseDate,
+    handleIncreaseWeek,
+    handleDecreaseWeek,
+    handleGoToThisWeek,
+  } = useDateHook();
 
   const {
     ref: newTimeEntryRef,
@@ -45,40 +47,45 @@ const MembersTimePage = (props: {
   const handleChangeView = (view: "day" | "week") => {
     setActiveView(view);
   };
-  const handleGotoToday = () => {
-    setSelectDate(new Date());
-  };
 
   return (
     <div className="">
-      <div className="container bg-white-3 !mt-4 py-4 px-6 border gap-4 border-primary rounded-[7px] flex items-center">
-        <Avatar className="w-[49px] min-w-[49px] aspect-square bg-black-2">
-          O
-        </Avatar>
-        <div>
-          <p className="text-[20px] text-black">Olivia Smith’s timesheet</p>
-          <div className="flex items-center gap-4 w-full">
-            <span className="text-sm text-gray-4">
-              Changes will save to Bola’s timesheet.{" "}
-            </span>
-            <Link
-              href="/time"
-              className="underline underline-offset-1 text-sm text-blue-state"
-            >
-              Resume editing your own timesheet
-            </Link>
+      {!isApproved && (
+        <div className="container bg-white-3 !mt-4 py-4 px-6 border gap-4 border-primary rounded-[7px] flex items-center">
+          <Avatar className="w-[49px] min-w-[49px] aspect-square bg-black-2">
+            O
+          </Avatar>
+          <div>
+            <p className="text-[20px] text-black">Olivia Smith’s timesheet</p>
+            <div className="flex items-center gap-4 w-full">
+              <span className="text-sm text-gray-4">
+                Changes will save to Bola’s timesheet.{" "}
+              </span>
+              <Link
+                href="/time"
+                className="underline underline-offset-1 text-sm text-blue-state"
+              >
+                Resume editing your own timesheet
+              </Link>
+            </div>
           </div>
         </div>
+      )}
+      <div className="container">
+        <TimeSheetActionBar
+          handleDecreaseWeek={handleDecreaseWeek}
+          handleIncreaseWeek={handleIncreaseWeek}
+          handleGoToThisWeek={handleGoToThisWeek}
+          weekInterval={weekInterval}
+          handlePrevTime={handleDecreaseDate}
+          handleNextTime={handleIncreaseDate}
+          activeView={activeView}
+          handleChangeView={handleChangeView}
+          selectDate={selectDate}
+          handleGotoToday={handleGotoToday}
+          teamId={props.params.teamId}
+        />
       </div>
-      <TimeSheetActionBar
-        handlePrevTime={handleDecreaseDate}
-        handleNextTime={handleIncreaseDate}
-        activeView={activeView}
-        handleChangeView={handleChangeView}
-        selectDate={selectDate}
-        handleGotoToday={handleGotoToday}
-        teamId={props.params.teamId}
-      />
       <div className="container flex items-start gap-7">
         <button type="button" className="" onClick={handleNewTimeEntryClick}>
           <div className="w-[64px] min-w-[64px] aspect-square centered bg-black rounded-full">

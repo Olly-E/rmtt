@@ -1,8 +1,10 @@
 "use client";
 
-import SubNav from "@/app/layout/SubNav";
+
 import { usePathname } from "next/navigation";
 import React from "react";
+
+import SubNav from "@/app/layout/SubNav";
 
 export default function TimerLayout({
   children,
