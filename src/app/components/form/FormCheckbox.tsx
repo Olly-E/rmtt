@@ -13,7 +13,6 @@ type FormCheckboxProps = {
   labelClass?: string;
   errorMessage?: string;
   id: string;
-
   registration: Partial<UseFormRegisterReturn>;
 } & UseControllerProps;
 
@@ -58,15 +57,17 @@ const FormCheckbox = ({
                   </svg>
                 </Checkbox.Indicator>
               </Checkbox.Root>
-              <label
-                className={clsx(
-                  "pl-[15px] text-[15px] leading-none text-black",
-                  labelClass
-                )}
-                htmlFor={id}
-              >
-                {label}
-              </label>
+              {label && (
+                <label
+                  className={clsx(
+                    "pl-[15px] text-[15px] leading-none text-black",
+                    labelClass
+                  )}
+                  htmlFor={id}
+                >
+                  {label}
+                </label>
+              )}
             </div>
           );
         }}

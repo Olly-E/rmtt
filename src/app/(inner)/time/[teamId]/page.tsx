@@ -9,8 +9,8 @@ import TimeSheetActionBar from "@/app/features/time/components/TimeSheetActionBa
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
-import { Avatar } from "@/app/components/Avatar";
 import { useDateHook } from "@/app/hooks/useDateHook";
+import { Avatar } from "@/app/components/Avatar";
 
 interface PageProps {
   params: {

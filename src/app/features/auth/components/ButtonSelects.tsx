@@ -40,8 +40,10 @@ const ButtonSelects = ({
   name,
   label,
   isRequired,
+  hasError,
   labelClass,
   className,
+  errorMessage,
 }: ButtonSelectsProps) => {
   return (
     <div className="w-full">
@@ -79,6 +81,10 @@ const ButtonSelects = ({
           );
         }}
       />
+      {hasError && <div className="border-b border-b-red-state mt-4"/>}
+      {errorMessage && (
+        <p className="text-red-state text-[12px] mt-2 block">{errorMessage}</p>
+      )}
     </div>
   );
 };

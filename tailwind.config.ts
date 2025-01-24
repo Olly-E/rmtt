@@ -14,7 +14,7 @@ const config: Config = {
       colors: {
         primary: "#F7E001",
         white: { DEFAULT: "#FFFFFF", 2: "#FAFAFA", 3: "#FAF7E1" },
-        black: { DEFAULT: "#050505", 2: "#0D0C0C", },
+        black: { DEFAULT: "#050505", 2: "#0D0C0C" },
         gray: {
           7: "#F1F0EF",
           6: "#E3E0DE",
@@ -32,6 +32,5 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp")],
 };
 export default config;

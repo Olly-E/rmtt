@@ -9,9 +9,11 @@ import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
 import { useDateHook } from "@/app/hooks/useDateHook";
+import clsx from "clsx";
 
 const TimePage = () => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
+  const isDailyView = activeView === "day";
 
   const {
     selectDate,
@@ -52,17 +54,21 @@ const TimePage = () => {
           handleGoToThisWeek={handleGoToThisWeek}
         />
       </div>
-      <div className="container flex items-start gap-7">
-        <button type="button" className="" onClick={handleNewTimeEntryClick}>
-          <div className="w-[64px] min-w-[64px] aspect-square centered bg-black rounded-full">
-            <Plus size={34} strokeWidth={3} color="#F7E001" />
-          </div>
-          <p className="text-black font-medium text-sm whitespace-nowrap mt-2">
-            Track time
-          </p>
-        </button>
+      <div
+        className={clsx("container", isDailyView && "flex items-start gap-7")}
+      >
+        {isDailyView && (
+          <button type="button" className="" onClick={handleNewTimeEntryClick}>
+            <div className="w-[64px] min-w-[64px] aspect-square centered bg-black rounded-full">
+              <Plus size={34} strokeWidth={3} color="#F7E001" />
+            </div>
+            <p className="text-black font-medium text-sm whitespace-nowrap mt-2">
+              Track time
+            </p>
+          </button>
+        )}
 
-        {activeView === "day" ? (
+        {isDailyView ? (
           <DayTypeView selectDate={selectDate} setSelectDate={setSelectDate} />
         ) : (
           <WeekTypeView />

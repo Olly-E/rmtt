@@ -11,7 +11,6 @@ const AssignProject = () => {
     formState: { errors },
   } = useForm();
 
-  // const assignedProjects = watch("project");
 
   return (
     <form className="w-[743px] mx-auto mt-10">

@@ -4,6 +4,7 @@ import { Control, useForm } from "react-hook-form";
 import React from "react";
 
 import { SelectFieldWithInput } from "@/app/components/form/SelectFieldWithInput";
+import { useInvitePerson } from "@/app/features/team/api/useInvitePerson";
 import ButtonSelects from "@/app/features/auth/components/ButtonSelects";
 import { SelectField } from "@/app/components/form/SelectField";
 import { InputField } from "@/app/components/form/InputField";
@@ -11,21 +12,35 @@ import { AddTeamForm } from "@/app/features/team/types";
 import { Button } from "@/app/elements/Button";
 
 const AddNewTeam = () => {
+  const { mutate } = useInvitePerson();
+
   const {
     register,
     control,
+    handleSubmit,
     formState: { errors },
   } = useForm<AddTeamForm>();
 
+  const onSubmit = (data: AddTeamForm) => {
+    mutate(data, {
+      onSuccess: () => {
+        // route.push('/team')
+      },
+    });
+  };
+
   return (
     <div>
-      <form action="" className="w-[737px] mx-auto mt-10">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-[737px] mx-auto mt-10"
+      >
         <div className="border-b border-b-black/10 pb-4">
           <h1 className="text-[32px] leading-[32px] font-medium">
             Invite Person
           </h1>
           <p className="text-sm mt-4">
-            We’ll email this person an invitation to join your team in Harvest.
+            We’ll email this person an invitation to join your team in RMTT.
           </p>
         </div>
         <div className="mt-4 flex w-full items-center gap-10">
@@ -179,7 +194,9 @@ const AddNewTeam = () => {
           </div>
         </div>
         <div className="flex items-center mt-8 justify-end gap-2">
-          <Button as="link" href="/team/new/permissions" size="md">Invite and continue</Button>
+          <Button as="link" href="/team/new/permissions" size="md">
+            Invite and continue
+          </Button>
           <Button variant="outline" size="md">
             Cancel
           </Button>

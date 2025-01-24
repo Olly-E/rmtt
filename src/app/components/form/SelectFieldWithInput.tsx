@@ -118,7 +118,7 @@ export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
           <div className="relative mt-1 ">
             <ComboboxInput
               className={clsx(
-                "block h-[40px] rounded-[6px] w-full border-[#9EA4AC] border-[0.5px] px-4 text-left text-sm text-secondary outline-none bg-transparent",
+                "block h-[40px] rounded-[6px] w-full border border-[#444444]/20 px-4 text-left text-sm text-secondary outline-none bg-transparent",
                 hasError && "border-red-500",
                 !hasBorder &&
                   "border-transparent px-0 focus:border-transparent",
@@ -202,9 +202,9 @@ export const SelectFieldWithInput: React.FC<SelectFieldProps> = (props) => {
                           className={clsx(
                             "group relative cursor-pointer py-3 px-4 flex items-center",
                             focus
-                              ? "bg-secondary text-primary"
+                              ? "bg-black/50 text-primary"
                               : "text-black-state",
-                            selected && "bg-primary/20 text-primary",
+                            selected && "bg-black text-primary",
                             !(filteredArr.length - 1 === index) &&
                               "border-b border-[#9EA4AC]"
                           )}

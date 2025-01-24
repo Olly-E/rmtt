@@ -1,7 +1,11 @@
 import { IBM_Plex_Sans } from "next/font/google";
+import 'react-phone-number-input/style.css'
+import { Toaster } from "react-hot-toast";
 import type { Metadata } from "next";
 
+import ReactQueryProvider from "./lib/react-query";
 import "./globals.css";
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,6 +16,7 @@ const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   display: "swap",
   weight: ["100", "200", "300", "400", "500", "600", "700"],
+  preload: true,
 });
 
 export default function RootLayout({
@@ -22,7 +27,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${ibmPlexSans.className} antialiased`}>
-        {children} <div id="modal-root"></div>
+        <ReactQueryProvider>
+          {children}
+          <Toaster />
+        </ReactQueryProvider>
+        <div id="modal-root"></div>
       </body>
     </html>
   );

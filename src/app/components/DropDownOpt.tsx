@@ -8,10 +8,16 @@ import { ChevronDown, EllipsisVertical } from "lucide-react";
 
 interface DropDownProp {
   options: { name: string; id: string; action: () => void }[];
-  deleteIndex: number;
+  deleteIndex?: number;
   useIcon?: boolean;
+  text?: string;
 }
-export const DropDown = ({ options, deleteIndex, useIcon }: DropDownProp) => {
+export const DropDown = ({
+  options,
+  deleteIndex,
+  useIcon,
+  text,
+}: DropDownProp) => {
   const {
     ref: dropDownRef,
     setIsComponentVisible: setDropDownVisible,
@@ -45,7 +51,7 @@ export const DropDown = ({ options, deleteIndex, useIcon }: DropDownProp) => {
             onClick={handleOpenOptionsMenu}
             className="flex items-center gap-2 bg-white-2 px-3 py-2 rounded-[5px] border border-gray-200 w-fit text-sm"
           >
-            <p className="text-sm">Actions</p>
+            <p className="text-sm">{text || "Actions"}</p>
             <ChevronDown size="16" color="#292D32" />
           </button>
         )}

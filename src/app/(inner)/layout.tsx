@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../layout/Header";
-
+import Navbar from "../layout/Navbar";
 
 export const metadata = {
   title: "",
@@ -15,7 +14,7 @@ export default function DashboardLayout({
   return (
     <div className="h-screen gap-5 flex w-full bg-white-2">
       <div className="w-full">
-        <Header />
+        <Navbar />
         {children}
       </div>
     </div>

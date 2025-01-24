@@ -18,6 +18,10 @@ export const useComponentVisible = (initialIsVisible = false) => {
     setIsComponentVisible(!isComponentVisible);
   };
 
+  const handleCloseDropDown = () => {
+    setIsComponentVisible(false);
+  };
+
   React.useEffect(() => {
     const handleClickOutside = (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,6 +51,7 @@ export const useComponentVisible = (initialIsVisible = false) => {
     dropDownButtonRef,
     isComponentVisible,
     setIsComponentVisible,
+    handleCloseDropDown,
     handleClickOnDropDownButton,
   };
 };

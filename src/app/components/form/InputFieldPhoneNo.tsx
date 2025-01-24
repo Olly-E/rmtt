@@ -36,7 +36,7 @@ export const InputFieldPhoneNo: React.FC<InputFieldPhoneNoProps> = ({
         name={name}
         defaultValue={defaultValue}
         render={({ field }) => (
-          <div>
+          <div className="w-full">
             {!!label && (
               <Label
                 htmlFor={name}
@@ -48,8 +48,8 @@ export const InputFieldPhoneNo: React.FC<InputFieldPhoneNoProps> = ({
             )}
             <PhoneInput
               className={clsx(
-                "bg-[#434343] h-10 w-full appearance-none bg-transparent border-b font-WorkSans outline-none px-4 focus-within:border-b-black placeholder:text-gray-250",
-                hasError ? "border-red-500" : "border-b-black",
+                "bg-[#434343] h-10 w-full appearance-none bg-transparent border font-WorkSans px-4 placeholder:text-gray-250 rounded-[5px]",
+                hasError ? "border-red-500" : "border border-[#444444]/20",
                 className
               )}
               id={name}

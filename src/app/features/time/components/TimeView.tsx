@@ -39,6 +39,7 @@ const TimeView = () => {
   const [activeTimerId, setActiveTimerId] = React.useState<string | null>(null);
   const [timeData, setTimeData] = React.useState(TEMP_TIME_DATA);
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
+  
 
   React.useEffect(() => {
     if (activeTimerId) {

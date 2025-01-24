@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../layout/Header";
+import Navbar from "../layout/Navbar";
 
 export const metadata = {
   title: "",
@@ -9,7 +9,7 @@ export const metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="h-screen gap-5 p-5 flex w-full bg-white-2">
-      <Header />
+      <Navbar />
       {children}
     </div>
   );

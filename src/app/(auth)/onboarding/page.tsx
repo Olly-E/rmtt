@@ -1,27 +1,38 @@
 "use client";
+
 import { Control, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import {
+  OnboardingInputType,
+  onboardingSchema,
+} from "@/app/features/auth/utils/validationSchema";
+import ButtonSelects from "@/app/features/auth/components/ButtonSelects";
+import { useOnboarding } from "@/app/features/auth/api/useOnboarding";
 import { SelectField } from "@/app/components/form/SelectField";
+import { OnboardingPayload } from "@/app/features/team/types";
 import { InputField } from "@/app/components/form/InputField";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/app/elements/Button";
 
 import onboardingPic from "../../../../public/assets/onboardingPic.webp";
 import logoYellow from "../../../../public/assets/logo-yellow.svg";
-import ButtonSelects from "@/app/features/auth/components/ButtonSelects";
-import { Option } from "@/app/types";
 
 const Page = () => {
+  const route = useRouter();
+  const { mutate } = useOnboarding({
+    userId: "1",
+  });
+
   const {
     register,
     control,
+    handleSubmit,
     formState: { errors },
-  } = useForm<{
-    companyName: string;
-    role: string;
-    companySize: Option;
-  }>({});
+  } = useForm<OnboardingInputType>({ resolver: zodResolver(onboardingSchema) });
 
   const STAFF_SIZE = [
     { name: "Just me", id: "Just me" },
@@ -32,6 +43,21 @@ const Page = () => {
     { name: "51 - 100", id: "51 - 100" },
     { name: "100+", id: "100+" },
   ];
+
+  const onSubmit = (data: OnboardingInputType) => {
+    const payload: OnboardingPayload = {
+      company_name: data.companyName,
+      organization_position_status: data.role.name,
+      organization_industry: data.industry.name,
+      people_to_work_with: data.companySize,
+      id: "1",
+    };
+    mutate(payload, {
+      onSuccess: () => {
+        route.push("/timer");
+      },
+    });
+  };
 
   return (
     <div className="h-screen flex">
@@ -61,7 +87,7 @@ const Page = () => {
             We just have a few quick questions that&apos;ll help us customize
             your experience.
           </p>
-          <div className="space-y-8 mt-8">
+          <form className="space-y-8 mt-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
               <InputField
                 registration={{ ...register("companyName") }}
@@ -74,7 +100,7 @@ const Page = () => {
             </div>
             <div className="">
               <SelectField
-                arr={[{ name: "Emma", id: "1" }]}
+                arr={[{ name: "Manager", id: "1" }]}
                 control={control as unknown as Control}
                 name="role"
                 hasError={errors.role}
@@ -88,8 +114,8 @@ const Page = () => {
               <SelectField
                 arr={[{ name: "IT", id: "1" }]}
                 control={control as unknown as Control}
-                name="role"
-                hasError={errors.role}
+                name="industry"
+                hasError={errors.industry}
                 className="mt-4"
                 isRequired
                 label="3. What industry is your organization in? *"
@@ -101,11 +127,15 @@ const Page = () => {
               control={control as unknown as Control}
               options={STAFF_SIZE}
               hasError={errors.companySize}
+              errorMessage={errors.companySize?.message}
               labelClass="!text-[16px]"
               className="grid grid-cols-5"
               label="4. How many people will you be working with?"
             />
-          </div>
+            <Button type="submit" className="mt-4 w-full">
+              Complete Sign up
+            </Button>
+          </form>
         </div>
       </div>
     </div>

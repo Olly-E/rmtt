@@ -1,29 +1,42 @@
-import { array, object, string } from 'yup'
+import { array, object, string } from "zod";
 
 export const METHOD = {
-  POST: 'POST',
-  GET: 'GET',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
-}
+  POST: "POST",
+  GET: "GET",
+  PUT: "PUT",
+  DELETE: "DELETE",
+  PATCH: "PATCH",
+};
 
-export const OPTION_VALIDATION = object()
-  .shape({
-    name: string().required('Required'),
-    id: string().required('Required'),
-  })
-  .required('Required')
+export const EMPTY_OPTION = {
+  name: "",
+  id: "",
+};
 
-export const OPTIONS_VALIDATION = array()
-  .of(
-    object().shape({
-      name: string().required('Required'),
-      id: string().required('Required'),
-    })
-  )
-  .required('Required')
+export const OPTION_VALIDATION = object({
+  name: string({ required_error: "Required" }).min(1, "Required"),
+  id: string({ required_error: "Required" }).min(1, "Required"),
+});
 
-//web page contents
+export const OPTION_VALIDATION_OPTIONAL = object({
+  name: string().trim().optional(),
+  id: string().trim().optional(),
+}).optional();
+
+export const OPTIONS_VALIDATION = array(OPTION_VALIDATION).min(1, {
+  message: "At least one option is required",
+});
+
+export const CURRENCY_DATA_OPT = [
+  {
+    name: "USD",
+    id: "USD",
+  },
+  {
+    name: "EUR",
+    id: "EUR",
+  },
+];
 
 export const TEAM_MEMBER_OPTIONS = [
   { id: "1", name: "Olivia Smith" },

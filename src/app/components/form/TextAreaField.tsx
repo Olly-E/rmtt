@@ -44,7 +44,7 @@ export const TextAreaField: React.FunctionComponent<TextAreaFieldProps> = ({
         rows={rows}
         className={clsx(
           "w-full py-4 border border-[#E2E2E2] rounded-[5px] bg-white-2 px-4 font-WorkSans outline-none placeholder:text-sm placeholder:text-white/4 focus-within:border-secondary disabled:bg-gray-100",
-          hasError && "border-b-red-500",
+          hasError && "border-red-500",
           className
         )}
         {...registration}
