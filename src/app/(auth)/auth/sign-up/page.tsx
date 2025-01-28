@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Timer1 } from "iconsax-react";
 import Image from "next/image";
@@ -16,8 +17,7 @@ import { Button } from "@/app/elements/Button";
 
 import logoYellow from "../../../../../public/assets/logo-yellow.svg";
 import googleLogo from "../../../../../public/assets/googleLogo.svg";
-import signUpPic from "../../../../../public/assets/signUpPic.webp";
-import { useRouter } from "next/navigation";
+import signUpPic from "../../../../../public/assets/signupPic.webp";
 
 const Page = () => {
   const { show, handleToggle } = useToggle();
