@@ -21,7 +21,7 @@ const ProjectTable = () => {
       <ProjectActionBar />
       <ProjectTableHeading />
       {projectIsPending ? (
-        <FullPageLoader height="h-[60vh]" />
+        <FullPageLoader height="h-[40vh]" />
       ) : (
         projectData?.map((project) => (
           <ProjectRow key={project.id} title={project.name} budget={1000} />

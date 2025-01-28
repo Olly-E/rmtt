@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft2, PasswordCheck } from "iconsax-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,16 +12,32 @@ import { useToggle } from "@/app/hooks/useToggle";
 import { Button } from "@/app/elements/Button";
 
 import logoYellow from "../../../../../../public/assets/logo-yellow.svg";
+import { useResetPassword } from "@/app/features/auth/api/useResetPassword";
 
 export default function ConfirmPassword() {
+  const route = useRouter();
+  const params = useSearchParams();
+  const token = params.get("token") as string | undefined;
+
+  const { mutate, isPending } = useResetPassword();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<ConfirmPasswordProps>({});
 
-  const onSubmit = (payload: ConfirmPasswordProps) => {
-    console.log(payload);
+  const onSubmit = (value: ConfirmPasswordProps) => {
+    const payload = {
+      token: token || "",
+      new_password: value.password,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        route.push("/auth/login");
+      },
+    });
   };
 
   const { show, handleToggle } = useToggle();
@@ -92,7 +109,12 @@ export default function ConfirmPassword() {
               className="mt-[6px]"
             />
           </div>
-          <Button type="submit" className="w-full mt-8">
+          <Button
+            disabled={isPending}
+            isLoading={isPending}
+            type="submit"
+            className="w-full mt-8"
+          >
             Set new password
           </Button>
         </form>

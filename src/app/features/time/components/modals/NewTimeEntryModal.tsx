@@ -1,11 +1,16 @@
 import React from "react";
 import clsx from "clsx";
 
+import { SelectFieldWithInput } from "@/app/components/form/SelectFieldWithInput";
+import { createTimeSchema, CreateTimeForm } from "../../utils/validationSchema";
+import { useProjectTasks } from "@/app/features/manage/api/useProjectTasks";
+import { useAllProjects } from "@/app/features/project/api/useAllProjects";
 import { TextAreaField } from "@/app/components/form/TextAreaField";
 import { SelectField } from "@/app/components/form/SelectField";
-import { InputField } from "@/app/components/form/InputField";
+import { useCreateTimeLog } from "../../api/useCreateTimeLogs";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Control, useForm } from "react-hook-form";
-import { NewTimeEntryForm } from "../../types";
+import { CreateTimePayload } from "../../types";
 import { Modal } from "@/app/components/Modal";
 import { Button } from "@/app/elements/Button";
 
@@ -20,19 +25,49 @@ const NewTimeEntryModal = ({
   modalOpen,
   modalRef,
 }: AdjustStockModalProps) => {
-  const handleClose = () => {
-    setModalOpen(false);
-  };
-
   const {
+    watch,
     control,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<NewTimeEntryForm>();
+  } = useForm<CreateTimeForm>({
+    resolver: zodResolver(createTimeSchema),
+  });
 
-  const onSubmit = (data: NewTimeEntryForm) => {
-    console.log(data);
+  console.log(errors);
+  const projectId = watch("projectTitle")?.id;
+  const { data: taskArrayOpt, isPending: taskDataPending } = useProjectTasks({
+    projectId: projectId,
+  });
+  const { mutate, isPending: createTimePending } = useCreateTimeLog({
+    projectId: projectId,
+  });
+
+  const { data: projectData, isPending: projectIsPending } = useAllProjects({
+    limit: 50,
+    page: 1,
+    search: "",
+  });
+
+  const projectArrayOpt = projectData?.results || [];
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+
+  const onSubmit = (data: CreateTimeForm) => {
+    const payload: CreateTimePayload = {
+      project_id: data.projectTitle.id,
+      start_time: data.startTime || "0:00",
+      task_id: data.task.id,
+    };
+
+    mutate(payload, {
+      onSuccess: () => {
+        handleClose();
+      },
+    });
   };
 
   return (
@@ -57,21 +92,23 @@ const NewTimeEntryModal = ({
         </div>
 
         <div className="">
-          <InputField
-            registration={{ ...register("title") }}
-            hasError={errors.title}
-            className=""
-            isRequired
-            label="Project / Task"
-            placeholder="Project name"
+          <SelectFieldWithInput
+            hasError={errors.projectTitle}
+            name="projectTitle"
+            arr={projectArrayOpt}
+            dataLoading={projectIsPending}
+            className="mt-[6px] !w-full"
+            placeholder="Project title"
+            control={control as unknown as Control}
           />
         </div>
         <div className="">
           <SelectField
-            arr={[{ name: "Design", id: "1" }]}
+            arr={taskArrayOpt || []}
+            isLoading={taskDataPending}
             control={control as unknown as Control}
-            name="role"
-            hasError={errors.category}
+            name="task"
+            hasError={errors.task}
             className="mt-2"
             isRequired
             placeholder=""
@@ -90,8 +127,13 @@ const NewTimeEntryModal = ({
         </div>
 
         <div className="flex items-center gap-2 mt-2">
-          <Button type="submit" size="md">
-            Start Timer
+          <Button
+            isLoading={createTimePending}
+            disabled={createTimePending}
+            type="submit"
+            size="md"
+          >
+            {createTimePending ? "Initializing...." : "Start Timer"}
           </Button>
           <Button
             type="button"

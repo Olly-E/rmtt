@@ -10,7 +10,7 @@ export const useForgotPassword = () => {
   return useMutation<Response, AxiosError, ForgotPasswordProps>({
     mutationFn: (payload) =>
       fetchData<ForgotPasswordProps>(
-        "/auth/forgot-password",
+        "/users/password-reset-request/",
         "POST",
         payload
       ),

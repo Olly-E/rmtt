@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useForgotPassword } from "@/app/features/auth/api/useForgotPassword";
 import { ForgotPasswordProps } from "@/app/features/auth/types";
 import { InputField } from "@/app/components/form/InputField";
 import { Button } from "@/app/elements/Button";
@@ -12,6 +13,8 @@ import { Button } from "@/app/elements/Button";
 import logoYellow from "../../../../../public/assets/logo-yellow.svg";
 
 export default function ForgotPassword() {
+  const { mutate, isPending: isForgotPasswordPending } = useForgotPassword();
+
   const {
     register,
     formState: { errors },
@@ -19,7 +22,7 @@ export default function ForgotPassword() {
   } = useForm<ForgotPasswordProps>({});
 
   const onSubmit = (payload: ForgotPasswordProps) => {
-    console.log(payload);
+    mutate(payload);
   };
 
   return (
@@ -36,7 +39,11 @@ export default function ForgotPassword() {
           href="/login"
           className="group flex items-center text-black font-medium gap-[6px] leading-[16px]"
         >
-          <ArrowLeft2 color="#FAFAFA" size={12.6} className="transition-transform group-hover:translate-x-[-4px]" />
+          <ArrowLeft2
+            color="#FAFAFA"
+            size={12.6}
+            className="transition-transform group-hover:translate-x-[-4px]"
+          />
           Back to <span className="text-primary">Login</span>
         </Link>
       </div>
@@ -63,7 +70,12 @@ export default function ForgotPassword() {
               className="mt-[6px]"
             />
           </div>
-          <Button type="submit" className="w-full mt-8">
+          <Button
+            isLoading={isForgotPasswordPending}
+            disabled={isForgotPasswordPending}
+            type="submit"
+            className="w-full mt-8"
+          >
             Send Instructions
           </Button>
           <div className="">

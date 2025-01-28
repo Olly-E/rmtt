@@ -11,7 +11,7 @@ export const useResetPassword = () => {
   return useMutation<Response, AxiosError, ResetPasswordPayload>({
     mutationFn: (payload) =>
       fetchData<ResetPasswordPayload>(
-        '/admin/auth/reset-password',
+        '/users/password-reset-confirm/',
         'POST',
         payload
       ),

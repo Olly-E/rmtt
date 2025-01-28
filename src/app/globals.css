@@ -76,3 +76,19 @@ p {
     width: 100%;
   }
 }
+
+
+@keyframes rotate-line {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.rotate-line {
+transform-origin: 12px 14px; /* Center of rotation */
+animation: rotate-line 3s linear infinite;
+}

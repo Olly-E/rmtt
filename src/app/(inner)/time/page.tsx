@@ -2,18 +2,23 @@
 
 import { Plus } from "lucide-react";
 import React from "react";
+import clsx from "clsx";
 
 import NewTimeEntryModal from "@/app/features/time/components/modals/NewTimeEntryModal";
 import TimeSheetActionBar from "@/app/features/time/components/TimeSheetActionBar";
+import { useAllTimeLogs } from "@/app/features/time/api/useAllTimeLogs";
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
 import { useDateHook } from "@/app/hooks/useDateHook";
-import clsx from "clsx";
 
 const TimePage = () => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
   const isDailyView = activeView === "day";
+
+  const { data } = useAllTimeLogs();
+
+  console.log(data);
 
   const {
     selectDate,

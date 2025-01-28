@@ -4,7 +4,6 @@ import React from "react";
 import clsx from "clsx";
 
 import { TextAreaField } from "@/app/components/form/TextAreaField";
-import { NewTimeEntryForm } from "../../types";
 import { Modal } from "@/app/components/Modal";
 import { Button } from "@/app/elements/Button";
 import { useForm } from "react-hook-form";
@@ -24,15 +23,9 @@ const EmailMemberModal = ({
     setModalOpen(false);
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<NewTimeEntryForm>();
+  const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data: NewTimeEntryForm) => {
-    console.log(data);
-  };
+  const onSubmit = () => {};
 
   return (
     <Modal
@@ -59,7 +52,7 @@ const EmailMemberModal = ({
             placeholder=""
             registration={{ ...register("note") }}
             className="resize-none"
-            hasError={errors.note}
+            hasError={undefined}
             id="note"
             rows={6}
           />

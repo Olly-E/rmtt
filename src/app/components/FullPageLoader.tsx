@@ -15,7 +15,7 @@ export const FullPageLoader: React.FC<FullPageLoaderProps> = ({
   return (
     <div
       className={clsx(
-        'inset-0  flex h-screen items-center justify-center',
+        'inset-0 flex items-center justify-center',
         bgColor,
         height,
         className,

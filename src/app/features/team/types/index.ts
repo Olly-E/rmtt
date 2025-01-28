@@ -26,8 +26,8 @@ export interface ResetPasswordProps {
 }
 
 export interface ResetPasswordPayload {
-  code: string;
-  password: string;
+  token: string;
+  new_password: string;
 }
 
 export interface OnboardingPayload {

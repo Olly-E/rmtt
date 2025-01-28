@@ -37,3 +37,11 @@ export const teamMembersKey = {
   details: () => [...teamMembersKey.all, "detail"] as const,
   detail: (id: string) => [...teamMembersKey.details(), id] as const,
 };
+
+export const timeKeys = {
+  all: ["time"] as const,
+  lists: () => [...timeKeys.all, "list"] as const,
+  list: (id: string) => [...timeKeys.all, "list", id] as const,
+  details: () => [...timeKeys.all, "detail"] as const,
+  detail: (id: string) => [...timeKeys.details(), id] as const,
+}

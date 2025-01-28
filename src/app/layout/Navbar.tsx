@@ -88,9 +88,9 @@ const Navbar = () => {
           })}
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/settings" className="text-sm font-medium">
+          {/* <Link href="/settings" className="text-sm font-medium">
             Settings
-          </Link>
+          </Link> */}
           <div className="flex items-center justify-center gap-10">
             <ProfileMenuDropdown
               isLoading={false}
