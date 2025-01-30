@@ -10,15 +10,22 @@ import { useAllTimeLogs } from "@/app/features/time/api/useAllTimeLogs";
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
+import { timeKeys } from "@/app/utils/query-key-factory";
+import { useQueryClient } from "@tanstack/react-query";
 import { useDateHook } from "@/app/hooks/useDateHook";
 
 const TimePage = () => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
   const isDailyView = activeView === "day";
 
-  const { data } = useAllTimeLogs();
+  const { data: timeLogData, isPending: timeLogPending } = useAllTimeLogs();
+  const queryClient = useQueryClient();
 
-  console.log(data);
+  const invalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey: timeKeys.all,
+    });
+  };
 
   const {
     selectDate,
@@ -42,6 +49,16 @@ const TimePage = () => {
   const handleChangeView = (view: "day" | "week") => {
     setActiveView(view);
   };
+
+  React.useEffect(() => {
+    const handleVisibilityChange = () => {
+      invalidate();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
 
   return (
     <div className="">
@@ -74,7 +91,12 @@ const TimePage = () => {
         )}
 
         {isDailyView ? (
-          <DayTypeView selectDate={selectDate} setSelectDate={setSelectDate} />
+          <DayTypeView
+            selectDate={selectDate}
+            setSelectDate={setSelectDate}
+            timeLogData={timeLogData || []}
+            isPending={timeLogPending}
+          />
         ) : (
           <WeekTypeView />
         )}

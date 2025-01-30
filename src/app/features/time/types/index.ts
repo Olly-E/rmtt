@@ -20,17 +20,14 @@ export interface CreateTimePayload {
 }
 
 export interface TimeLogDataType {
+  project_name: string;
+  task_name: string;
   id: string;
-  created_at: string;
-  updated_at: string;
-  name: string;
-  description: string;
-  billable_rate: number;
-  is_default_billable: boolean;
-  is_common_and_future_adding: boolean;
-  is_added_to_all_existing_project: boolean;
-  initiator: string;
-}
-export interface AllTimeLogDataType {
-  tasks: TimeLogDataType[];
+  task_id: string;
+  project_id: string;
+  user_id: string;
+  time_spent: string;
+  is_active: boolean;
+  start_time: string;
+  end_time: string | null;
 }

@@ -10,8 +10,7 @@ interface ProjectRowProps {
   title: string;
   budget: number;
 }
-const ProjectRow = ({ title, budget }: ProjectRowProps) => {
-  console.log(budget);
+const ProjectRow = ({ title }: ProjectRowProps) => {
   const DROPDOWN_OPTIONS = [
     {
       name: "Edit",

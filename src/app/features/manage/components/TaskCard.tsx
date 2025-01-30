@@ -20,7 +20,6 @@ export const TaskCard = ({
   control,
   isBillable,
 }: TaskProps) => {
-  console.log(isBillable);
   return (
     <div className="flex items-center justify-between mt-2 px-6 border border-black/5 h-[54px] rounded-[10px]">
       <div className="flex items-center gap-4">

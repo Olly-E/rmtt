@@ -53,8 +53,7 @@ const TimeSheetActionBar = ({
     weekInterval?.startOfWeek,
     weekInterval?.endOfWeek
   );
-  const check = activeView === "week" && !isPresentWeek;
-  console.log(check);
+ 
   return (
     <div className="flex items-center justify-between gap-4 !mt-2 h-[80px]">
       <div className="flex items-center gap-6">

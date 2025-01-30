@@ -26,7 +26,7 @@ const NewClientPage = (props: PageProps) => {
   const goToPrevPage = () => {
     route.back();
   };
-  
+
   const { mutate, isPending } = useAddClient();
 
   const {

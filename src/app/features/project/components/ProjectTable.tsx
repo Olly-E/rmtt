@@ -15,7 +15,6 @@ const ProjectTable = () => {
   });
 
   const projectData = data?.results;
-  console.log(projectData);
   return (
     <div className="container">
       <ProjectActionBar />

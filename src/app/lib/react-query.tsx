@@ -31,7 +31,6 @@ const ReactQueryProvider: React.FunctionComponent<ReactQueryProviderProps> = ({
 
   const queryCache = new QueryCache({
     onError: (error) => {
-      // console.log({ error })
       error.message = 'An error occurred. Please try again later.'
     },
   })

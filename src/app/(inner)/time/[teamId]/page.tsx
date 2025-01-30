@@ -1,14 +1,17 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 import NewTimeEntryModal from "@/app/features/time/components/modals/NewTimeEntryModal";
 import TimeSheetActionBar from "@/app/features/time/components/TimeSheetActionBar";
+import { useAllTimeLogs } from "@/app/features/time/api/useAllTimeLogs";
 import WeekTypeView from "@/app/features/time/components/WeekTypeView";
 import { useComponentVisible } from "@/app/hooks/useComponentVisible";
 import DayTypeView from "@/app/features/time/components/DayTypeView";
+import { timeKeys } from "@/app/utils/query-key-factory";
 import { useDateHook } from "@/app/hooks/useDateHook";
 import { Avatar } from "@/app/components/Avatar";
 
@@ -22,6 +25,16 @@ interface PageProps {
 }
 const MembersTimePage = (props: PageProps) => {
   const [activeView, setActiveView] = React.useState<"day" | "week">("day");
+  const isDailyView = activeView === "day";
+
+  const { data: timeLogData, isPending: timeLogPending } = useAllTimeLogs();
+  const queryClient = useQueryClient();
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey: timeKeys.all,
+    });
+  };
 
   const isApproved = props.searchParams.approved;
 
@@ -47,6 +60,16 @@ const MembersTimePage = (props: PageProps) => {
   const handleChangeView = (view: "day" | "week") => {
     setActiveView(view);
   };
+
+  React.useEffect(() => {
+    const handleVisibilityChange = () => {
+      invalidate();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
 
   return (
     <div className="">
@@ -96,8 +119,13 @@ const MembersTimePage = (props: PageProps) => {
           </p>
         </button>
 
-        {activeView === "day" ? (
-          <DayTypeView selectDate={selectDate} setSelectDate={setSelectDate} />
+        {isDailyView ? (
+          <DayTypeView
+            timeLogData={timeLogData || []}
+            isPending={timeLogPending}
+            selectDate={selectDate}
+            setSelectDate={setSelectDate}
+          />
         ) : (
           <WeekTypeView />
         )}

@@ -2,7 +2,6 @@
 import React from "react";
 import clsx from "clsx";
 
-import { useAllContacts } from "@/app/features/manage/api/useAllContacts";
 import { useAllClients } from "@/app/features/manage/api/useAllClients";
 import { FullPageLoader } from "@/app/components/FullPageLoader";
 import { DropDown } from "@/app/components/DropDownOpt";
@@ -14,15 +13,6 @@ const ClientPage = () => {
     limit: 50,
     search: "",
   });
-
-  const { data: allContactData, isPending } = useAllContacts({
-    page: 1,
-    limit: 50,
-    search: "",
-    clientId: "",
-  });
-
-  console.log(allContactData);
 
   const clientData = data?.results || [];
 
@@ -68,7 +58,7 @@ const ClientPage = () => {
           <DropDown text="Import/Export" options={DROPDOWN_OPTIONS} />
         </div>
 
-        {isPending ? (
+        {allClientPending ? (
           <div>
             <FullPageLoader height="h-[50vh]" />
           </div>

@@ -5,21 +5,26 @@ import { timeKeys } from "@/app/utils/query-key-factory";
 import { transformError } from "@/app/utils/utils";
 import { fetchData } from "@/app/utils/fetchData";
 import { AxiosError } from "axios";
-import { CreateTimePayload } from "../types";
 
-export const useStartTime = ({ projectId }: { projectId: string }) => {
+
+export const useStartTime = () => {
   const queryClient = useQueryClient();
-  return useMutation<Response, AxiosError, CreateTimePayload>({
+
+  type PayloadType = {
+    time_entry_id: string;
+  };
+
+  return useMutation<Response, AxiosError, PayloadType>({
     mutationFn: (payload) =>
-      fetchData<CreateTimePayload>(
-        `/trackers/projects/${projectId}/start-tracking/`,
+      fetchData<PayloadType>(
+        `/trackers/projects/play/`,
         "PATCH",
         payload
       ),
     onSuccess: () => {
-      toast.success("Time created.");
+      toast.success("Time started.");
       queryClient.invalidateQueries({
-        queryKey: timeKeys.list(projectId),
+        queryKey: timeKeys.all,
       });
     },
     onError: (error) => {

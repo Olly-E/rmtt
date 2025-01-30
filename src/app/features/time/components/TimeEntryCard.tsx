@@ -1,34 +1,68 @@
-
 import React from "react";
 import clsx from "clsx";
 
+import { formatElapsedTime } from "@/app/utils/utils";
+import { useStartTime } from "../api/useStartTime";
+import { useStopTime } from "../api/useStopTime";
+import { TimeLogDataType } from "../types";
+
 interface TimeEntryCardProp {
-  time: {
-    id: string;
-    hours: string;
-    tag: string;
-    projectTitle: string;
-    notes: string;
-    date: string;
-    elapsedTime: number;
-  };
+  time: TimeLogDataType;
   index: number;
-  isActive: boolean;
-  onToggle: (id: string) => void;
 }
-const TimeEntryCard = ({
-  time,
-  index,
-  isActive,
-  onToggle,
-}: TimeEntryCardProp) => {
-  const formatElapsedTime = (seconds: number) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, "0")}:${mins
-      .toString()
-      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+const TimeEntryCard = ({ time, index }: TimeEntryCardProp) => {
+  const { mutate: mutateStopTime } = useStopTime();
+  const { mutate: mutateStartTime } = useStartTime();
+
+  const timeIsActive = time?.is_active;
+
+  // Function to calculate elapsed time from string
+  const getElapsedTime = (timeSpent: string) => {
+    if (!timeSpent) return 0;
+    const [hrs = 0, mins = 0, secs = 0] = timeSpent.split(":").map(Number);
+    return hrs * 3600 + mins * 60 + secs;
+  };
+
+  const [elapsedTime, setElapsedTime] = React.useState(() =>
+    getElapsedTime(time?.time_spent)
+  );
+
+  // Effect to sync elapsedTime with time.time_spent when invalidated/refetched
+  React.useEffect(() => {
+    setElapsedTime(getElapsedTime(time?.time_spent));
+  }, [time?.time_spent]); // Updates when backend data changes
+
+  // Effect to increment elapsedTime every second if time is active
+  React.useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (timeIsActive) {
+      interval = setInterval(() => {
+        setElapsedTime((prevElapsedTime) => prevElapsedTime + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [timeIsActive]); // Only runs when timeIsActive changes
+
+  const handleTime = () => {
+    const payload = {
+      time_entry_id: time.id,
+    };
+
+    if (time.is_active) {
+      mutateStopTime(payload, {
+        onSuccess: (response: unknown) => {
+          setElapsedTime(
+            getElapsedTime((response as { time_spent: string }).time_spent)
+          );
+        },
+      });
+    } else {
+      mutateStartTime(payload);
+    }
   };
 
   return (
@@ -40,21 +74,22 @@ const TimeEntryCard = ({
     >
       <div>
         <p className="bg-black/10 text-xs capitalize w-fit rounded-full px-4 py-1 text-black">
-          {time.tag}
+          {time.task_name}
         </p>
-        <p className="mt-2 text-black">{time.projectTitle}</p>
-        <p className="text-gray-4 text-sm mt-1">{time.notes}</p>
+        <p className="mt-2 text-black capitalize font-medium">
+          {time.project_name}
+        </p>
+        <p className="text-gray-4 text-sm mt-1 capitalize">
+          {/* {time.notes} */}
+        </p>
       </div>
       <div className="flex items-center gap-4">
-        <p className="text-black mt-2">
-          {" "}
-          {formatElapsedTime(time.elapsedTime)}
-        </p>
+        <p className="text-black mt-2">{formatElapsedTime(elapsedTime)}</p>
         <button
-          onClick={() => onToggle(time.id)}
+          onClick={handleTime}
           className={clsx(
-            " min-w-[50px] w-[50px] aspect-square centered rounded-full transition-all duration-100",
-            isActive ? "text-black bg-primary" : "text-primary bg-black"
+            "min-w-[50px] w-[50px] aspect-square centered rounded-full transition-all duration-100",
+            timeIsActive ? "text-black bg-primary" : "text-primary bg-black"
           )}
           type="button"
         >
@@ -76,7 +111,7 @@ const TimeEntryCard = ({
               x2="15"
               y1="14"
               y2="11"
-              className={clsx("", isActive && " transform rotate-line")}
+              className={clsx("", timeIsActive && " transform rotate-line")}
             />
             <circle cx="12" cy="14" r="8" />
           </svg>

@@ -63,6 +63,7 @@ const CreateNewProjectPage = () => {
       limit: 50,
       search: "",
     });
+  console.log(teamData);
 
   const { data: taskDataArray, isPending: taskIsPending } = useAllTasks();
   const { mutate, isPending: creteProjectPending } = useCreateProject();
@@ -83,8 +84,6 @@ const CreateNewProjectPage = () => {
       setSelectedTasks(isCommonTaskArray || []);
     }
   }, [taskIsPending]);
-
-  console.log(teamData);
 
   const clientsListOpt = data?.results || [];
 
@@ -158,8 +157,6 @@ const CreateNewProjectPage = () => {
       },
     });
   };
-
-  console.log({ errors });
 
   return (
     <div className="container">

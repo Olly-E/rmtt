@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 dayjs.extend(relativeTime);
 
 export const transformError = (error: AxiosError) => {
-  const errorMessage = (error.response?.data as AxiosError).message;
+  const errorMessage = error?.message;
   if (Array.isArray(errorMessage)) {
     return errorMessage[0];
   }
@@ -65,4 +65,13 @@ export const isCurrentWeek = (startOfWeek: Date, endOfWeek: Date): boolean => {
     startOfWeek?.toDateString() === currentStart.toDateString() &&
     endOfWeek?.toDateString() === currentEnd.toDateString()
   );
+};
+
+export const formatElapsedTime = (seconds: number) => {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${hrs.toString().padStart(2, "0")}:${mins
+    .toString()
+    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };

@@ -7,7 +7,7 @@ import { fetchData } from "@/app/utils/fetchData";
 import { AxiosError } from "axios";
 import { CreateTimePayload } from "../types";
 
-export const useCreateTimeLog = ({ projectId }: { projectId: string }) => {
+export const useCreateTimeLog = () => {
   const queryClient = useQueryClient();
   return useMutation<Response, AxiosError, CreateTimePayload>({
     mutationFn: (payload) =>
@@ -19,7 +19,7 @@ export const useCreateTimeLog = ({ projectId }: { projectId: string }) => {
     onSuccess: () => {
       toast.success("Time created.");
       queryClient.invalidateQueries({
-        queryKey: timeKeys.list(projectId),
+        queryKey: timeKeys.all,
       });
     },
     onError: (error) => {
@@ -27,3 +27,6 @@ export const useCreateTimeLog = ({ projectId }: { projectId: string }) => {
     },
   });
 };
+
+
+//same would apply to creating a time too same as the stop or start time you will be invalidating by the date the time was created since time logs are separated in dates for now anyway

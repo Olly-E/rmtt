@@ -35,14 +35,11 @@ const NewTimeEntryModal = ({
     resolver: zodResolver(createTimeSchema),
   });
 
-  console.log(errors);
   const projectId = watch("projectTitle")?.id;
-  const { data: taskArrayOpt, isPending: taskDataPending } = useProjectTasks({
-    projectId: projectId,
-  });
-  const { mutate, isPending: createTimePending } = useCreateTimeLog({
-    projectId: projectId,
-  });
+  console.log(projectId);
+  //the task in the project will be fetched by the project id, there's no endpoint for that yet so we're fetching from all id pending that
+  const { data: taskArrayOpt, isPending: taskDataPending } = useProjectTasks();
+  const { mutate, isPending: createTimePending } = useCreateTimeLog();
 
   const { data: projectData, isPending: projectIsPending } = useAllProjects({
     limit: 50,
@@ -59,7 +56,7 @@ const NewTimeEntryModal = ({
   const onSubmit = (data: CreateTimeForm) => {
     const payload: CreateTimePayload = {
       project_id: data.projectTitle.id,
-      start_time: data.startTime || "0:00",
+      start_time: data.startTime || "00:00",
       task_id: data.task.id,
     };
 
@@ -112,7 +109,7 @@ const NewTimeEntryModal = ({
             className="mt-2"
             isRequired
             placeholder=""
-            defaultValue={{ name: "Design", id: "1" }}
+            defaultValue={{ name: "", id: "" }}
           />
         </div>
         <div>

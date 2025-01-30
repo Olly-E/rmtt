@@ -4,6 +4,7 @@ import EmptyState from "@/app/components/EmptyState";
 import TimeEntryCard from "./TimeEntryCard";
 
 import emptyTime from "../../../../../public/assets/emptyTime.svg";
+import { TimeLogDataType } from "../types";
 
 const TEMP_TIME_DATA = [
   {
@@ -35,36 +36,38 @@ const TEMP_TIME_DATA = [
   },
 ];
 
-const TimeView = () => {
-  const [activeTimerId, setActiveTimerId] = React.useState<string | null>(null);
-  const [timeData, setTimeData] = React.useState(TEMP_TIME_DATA);
-  const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
-  
+interface TimeViewProps {
+  timeLogData: TimeLogDataType[];
+}
+const TimeView = ({ timeLogData }: TimeViewProps) => {
+  // const [activeTimerId, setActiveTimerId] = React.useState<string | null>(null);
+  // const [timeData, setTimeData] = React.useState(TEMP_TIME_DATA);
+  // const intervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  React.useEffect(() => {
-    if (activeTimerId) {
-      intervalRef.current = setInterval(() => {
-        setTimeData((prevData) =>
-          prevData.map((item) =>
-            item.id === activeTimerId
-              ? { ...item, elapsedTime: item.elapsedTime + 1 }
-              : item
-          )
-        );
-      }, 1000);
-    } else if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+  // React.useEffect(() => {
+  //   if (activeTimerId) {
+  //     intervalRef.current = setInterval(() => {
+  //       setTimeData((prevData) =>
+  //         prevData.map((item) =>
+  //           item.id === activeTimerId
+  //             ? { ...item, elapsedTime: item.elapsedTime + 1 }
+  //             : item
+  //         )
+  //       );
+  //     }, 1000);
+  //   } else if (intervalRef.current) {
+  //     clearInterval(intervalRef.current);
+  //     intervalRef.current = null;
+  //   }
 
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [activeTimerId]);
+  //   return () => {
+  //     if (intervalRef.current) clearInterval(intervalRef.current);
+  //   };
+  // }, [activeTimerId]);
 
-  const handleToggle = (id: string) => {
-    setActiveTimerId((prevId) => (prevId === id ? null : id));
-  };
+  // const handleToggle = (id: string) => {
+  //   setActiveTimerId((prevId) => (prevId === id ? null : id));
+  // };
 
   if (TEMP_TIME_DATA.length === 0) {
     return (
@@ -76,13 +79,11 @@ const TimeView = () => {
   }
   return (
     <div className="p-3 w-full border-black/5 border bg-white-3 h-[calc(100vh-282px)] mt-4 rounded-[15px]">
-      {timeData.map((time, index) => (
+      {timeLogData.map((time, index) => (
         <TimeEntryCard
           key={time.id}
           index={index}
           time={time}
-          isActive={time.id === activeTimerId}
-          onToggle={handleToggle}
         />
       ))}
     </div>
